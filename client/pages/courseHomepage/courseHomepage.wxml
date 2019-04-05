@@ -37,6 +37,12 @@
         </view>
     </view>
 
+    <view class="operation-test">
+        <view class="test" bindtap='bindtapSignIn'>
+            <text>签到</text>
+        </view>
+    </view>
+
   </view>
 </view>
 

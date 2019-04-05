@@ -35,9 +35,6 @@
     box-sizing: border-box;
 }
 
-.new-test{
-}
-
 .test-title{
     width: 100%;
     line-height: 52px;

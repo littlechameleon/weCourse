@@ -56,4 +56,14 @@ router.get('/collectAnswer', controllers.collectAnswer)
 
 router.get('/getTestResult', controllers.getTestResult)
 
+router.get('/startSignIn', controllers.startSignIn)
+
+router.get('/checkIn', controllers.checkIn)
+
+router.get('getSignIn', controllers.getSignIn)
+
+router.get('getCheckIn', controllers.getCheckIn)
+
+router.get('/collectCheckIn', controllers.collectCheckIn)
+
 module.exports = router

@@ -9,7 +9,8 @@
     "pages/addTest/addTest",
     "pages/testDetail/testDetail",
     "pages/addStudent/addStudent",
-    "pages/testResult/testResult"
+    "pages/testResult/testResult",
+    "pages/signIn/signIn"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
