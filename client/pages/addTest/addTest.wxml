@@ -1,0 +1,11 @@
+<!--pages/addTest/addTest.wxml-->
+<view class='container'>
+  <view class='course-info'>
+    <view class='info-rule'>
+      <text>请输入测验题目,每道单选题以 # 开头，选项以 > 开头， 其中正确选项 以 >* 开头, 字数小于3000字</text>
+    </view>
+    <textarea bindinput='bindinput' auto-height='true' maxlength='3000' class='info-textarea' placeholder-style='font-size: 30rpx' placeholder='请输入内容'></textarea>
+  </view>
+  <button class='weui-btn create-btn' bindtap='bindtapcreate'>创建</button>
+</view>
+

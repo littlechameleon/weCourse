@@ -1,0 +1,10 @@
+<!--pages/addCourse/addCourse.wxml-->
+<view class='container'>
+  <view class='course-info'>
+    <view class='info-rule'>
+      <text>请输入课程题目、简要描述、目标学生、上课时间、上课地点五项内容，每项用#分隔</text>
+    </view>
+    <textarea bindinput='bindinput' auto-height='true' maxlength='500' class='info-textarea' placeholder-style='font-size: 30rpx' placeholder='请输入内容'></textarea>
+  </view>
+  <button class='weui-btn create-btn' bindtap='bindtapcreate'>创建</button>
+</view>

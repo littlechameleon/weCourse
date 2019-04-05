@@ -1,0 +1,17 @@
+<!--pages/test/test.wxml-->
+<view class='container'>
+  <view class='title'>
+    <text class='chapter-title'>第{{sequence + 1}}节  {{title}}</text>
+  </view>
+  <view class='test-list'>
+    <view wx:for="{{testList}}" wx:key='test_id' data-index='{{index}}' data-id='{{item.test_id}}' class="test" bindtap='enterTest' wx:if='{{item.state != 0 || isTeacher != 0}}'>
+      <text class='test-title'>第{{index + 1}}套测验题</text>
+      <text class='test-title' wx:if='{{item.state == 1}}'>(正在进行)</text>
+      <text class='test-title' wx:if='{{item.state == 2}}'>(已结束)</text>
+    </view>
+    <view class='test new-test' bindtap='addTest' wx:if='{{isTeacher == 1}}'>
+      <image src='../../assets/image/addition.png' class='add-icon'></image>
+      <text class='test-title'>新增测验</text>
+    </view>
+  </view>
+</view>

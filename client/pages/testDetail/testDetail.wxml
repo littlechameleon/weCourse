@@ -1,0 +1,72 @@
+<!--pages/testDetail/testDetail.wxml-->
+<view class='container'>
+  <view class='teacher-pane' wx:if='{{isTeacher == 1}}'>
+    <view class='title'>
+      <text class='chapter-title'>第{{sequence + 1}}节  {{title}} | </text>
+      <text class='chapter-title' wx:if='{{test.state === 0}}'>未开启测试</text>
+      <text class='chapter-title' wx:if='{{test.state === 1}}'>已开启测试</text>
+    </view>
+    <view class='start-test'>
+      <picker value='{{duration}}' bindchange='changeDuration' range='{{durations}}' disabled='{{enablePicker}}'>
+        <view class='picker'>
+          <text class='set-time'>选择定时： </text>
+          <text wx-if="{{duration === -1 && test.state === 0}}" class='time-title'>未选择</text>
+          <text wx-if="{{test.state !== 0 || duration !== -1}}" class='time-title'>{{duration}}分钟</text>
+        </view>
+      </picker>
+      <button disabled='{{enablePicker}}' class='start-btn' bindtap='startTest'>{{testState}}</button>
+    </view>
+    <form class='test' bindsubmit='formSubmit'>
+      <view wx:for='{{question}}' wx:for-item='quest' class='radio-item' wx:key='index'>
+        <view class='radio-main'>{{index + 1}}. {{quest.main}}
+          <text wx:if='{{quest.type === 1}}'>(多选)</text>
+        </view>
+        <radio-group name='{{quest.id}}' wx:if='{{quest.type === 0}}'>
+          <label wx:for='{{radioList[index]}}' class='radio-part' wx:key='index' wx:for-index='idx'>
+            <radio value='{{idx}}' disabled='true' checked='{{result[index][idx] == 1}}'/>
+            <text class='radio-choose'>{{item}}</text>
+          </label>
+        </radio-group>
+        
+        <checkbox-group name='{{quest.id}}' wx:if='{{quest.type === 1}}'>
+          <label wx:for='{{radioList[index]}}' class='radio-part' wx:key='index' wx:for-index='idx'>
+            <checkbox value='{{idx}}' disabled='true' checked='{{result[index][idx] == 1}}'/>
+            <text class='radio-choose'>{{item}}</text>
+          </label>
+        </checkbox-group>
+      </view>
+    </form>
+  </view>
+
+  <view class='student-pane' wx:if='{{isTeacher == 0}}'>
+    <view class='title'>
+      <text class='chapter-title'>第{{sequence + 1}}节  {{title}}</text>
+      <text class='chapter-title last-count'>{{testState}}</text>
+    </view>
+    <form class='test' bindsubmit='formSubmit'>
+      <view wx:for='{{question}}' wx:for-item='quest' class='radio-item' wx:key='index'>
+        <view class='radio-main'>{{index + 1}}. {{quest.main}}
+          <text wx:if='{{quest.type === 1}}'>(多选)</text>
+        </view>
+        <radio-group name='{{quest.id}}' wx:if='{{quest.type === 0}}'>
+          <label wx:for='{{radioList[index]}}' class='radio-part' wx:key='index' wx:for-index='idx'>
+            <radio value='{{idx}}' disabled='{{answerState == "开始答题"}}'/>
+            <text class='radio-choose'>{{item}}</text>
+          </label>
+        </radio-group>
+        
+        <checkbox-group name='{{quest.id}}' wx:if='{{quest.type === 1}}'>
+          <label wx:for='{{radioList[index]}}' class='radio-part' wx:key='index' wx:for-index='idx'>
+            <checkbox value='{{idx}}' disabled='{{answerState == "开始答题"}}'/>
+            <text class='radio-choose'>{{item}}</text>
+          </label>
+        </checkbox-group>
+      </view>
+      <button class='submit-button' form-type='submit' disabled='{{testState == "测试已结束"}}'>{{answerState}}</button>
+    </form>
+
+    <button class=''></button>
+  </view>
+
+</view>
+

@@ -1,0 +1,46 @@
+/* pages/test/test.wxss */
+.title{
+  margin: 20rpx 0;
+  width: 100%;
+  border-bottom: 1rpx #bbb solid;
+}
+
+.chapter-title{
+  font-size: 30rpx;
+  padding: 10rpx 30rpx;
+}
+
+.add-icon{
+  display: none;
+  width: 60rpx;
+  height: 60rpx;
+  vertical-align: middle;
+  margin-right: 5rpx;
+
+}
+
+.test-list{
+  margin: 40rpx;
+  width: 100%;
+}
+
+.test{
+    background: #FFF;
+    margin: 20rpx 0;
+    border: 1px solid rgba(0, 0, 0, .1);
+    height: auto;
+    padding: 0 0 0 40rpx;
+    flex-direction: column;
+    align-items: flex-start;
+    box-sizing: border-box;
+}
+
+.new-test{
+}
+
+.test-title{
+    width: 100%;
+    line-height: 52px;
+    font-size: 34rpx;
+    color: #007AFF;
+}

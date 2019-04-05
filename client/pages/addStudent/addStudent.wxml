@@ -1,0 +1,10 @@
+<!--pages/addStudent/addStudent.wxml-->
+<view class='container'>
+  <view class='course-info'>
+    <view class='info-rule'>
+      <text>每行输入学生姓名、学号、微信昵称，每项用tab键分隔，可从Excel中复制粘贴</text>
+    </view>
+    <textarea bindinput='bindinput' auto-height='true' maxlength='500' class='info-textarea' placeholder-style='font-size: 30rpx' placeholder='请输入学生信息'></textarea>
+  </view>
+  <button class='weui-btn create-btn' bindtap='bindtapcreate'>添加</button>
+</view>

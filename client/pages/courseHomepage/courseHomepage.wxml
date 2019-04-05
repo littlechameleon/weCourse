@@ -1,0 +1,42 @@
+<!--pages/courseHomepage/courseHomepage.wxml-->
+<view class='container'>
+
+  <view class='course-info'>
+    <view class='course-id'>
+      <text>课程号：{{courseId}} | </text>
+      <text wx:if='{{course.state===0}}'>正在开课</text>
+      <text wx:if='{{course.state===1}}'>已经结课</text>
+    </view>
+    <view class='course-name'>
+      <text>{{course.title}}</text>
+    </view>
+    <view class='course-detail'>
+      <text>地点：{{course.place}} | 时间：{{course.time}}</text>
+    </view>
+  </view>
+
+  <view class='chapter'>
+    <picker bindchange='bindchange' range-key="title" value="{{chapter}} " range='{{chapterList}}'>
+      <view class='picker'>
+        <text class='chapter-select'>请选择章节：</text>
+        <text wx-if="{{chapter == -1}}" class='chapter-title'>未选择</text>
+        <text wx-if="{{chapter != -1}}" class='chapter-title'>第{{chapterList[chapter].sequence + 1}}节  {{chapterList[chapter].title}}</text>
+      </view>
+    </picker>
+  </view>
+
+  <view class='operations'>
+
+    <!-- <form bindsubmit='formSubmit' report-submit='true'>
+      <button form-type='submit'>签到(发送模板消息)</button>
+    </form> -->
+
+    <view class="operation-test">
+        <view class="test" bindtap='bindtaptest'>
+            <text>课堂测验</text>
+        </view>
+    </view>
+
+  </view>
+</view>
+

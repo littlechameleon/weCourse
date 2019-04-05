@@ -1,0 +1,68 @@
+/* pages/testDetail/testDetail.wxss */
+.title{
+  margin: 20rpx 0;
+  width: 100%;
+  border-bottom: 1rpx #bbb solid;
+}
+
+.chapter-title{
+  font-size: 30rpx;
+  padding: 10rpx 0rpx 10rpx 30rpx;
+}
+
+.set-time{
+  font-size: 32rpx;
+}
+
+.submit-button{
+  margin-top: 30rpx;
+}
+
+.last-count{
+  float: right;
+  margin-right: 30rpx;
+}
+
+.teacher-pane,.student-pane{
+  width: 100%;
+}
+
+.time-title{
+  font-size:32rpx;
+  padding-top:5rpx;
+  float: right;
+  margin-right: 40rpx;
+  overflow: hidden;
+}
+
+.rest-time{
+  font-size: 32rpx;
+  float: right;
+}
+
+.picker{
+  background-color: #ddd;
+  margin: 10rpx 0;
+  padding: 20rpx;
+}
+
+.start-test{
+  width: 100%;
+}
+
+.test{
+  width: 100%;
+}
+
+.radio-main{
+  font-size: 32rpx;
+  margin: 5rpx 30rpx;
+}
+
+.radio-choose{
+  font-size: 30rpx;
+}
+
+.radio-part{
+  margin: 5rpx 60rpx;
+}

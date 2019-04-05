@@ -1,0 +1,10 @@
+<!--pages/addChapter/addChapter.wxml-->
+<view class='container'>
+  <view class='course-info'>
+    <view class='info-rule'>
+      <text>请添加课程的全部章节，每行填写一章的标题</text>
+    </view>
+    <textarea bindinput='bindinput' auto-height='true' maxlength='500' class='info-textarea' placeholder-style='font-size: 30rpx' placeholder='请输入内容'></textarea>
+  </view>
+  <button class='weui-btn create-btn' bindtap='bindtapcreate'>添加章节</button>
+</view>
