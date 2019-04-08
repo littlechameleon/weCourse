@@ -60,10 +60,12 @@ router.get('/startSignIn', controllers.startSignIn)
 
 router.get('/checkIn', controllers.checkIn)
 
-router.get('getSignIn', controllers.getSignIn)
+router.get('/getSignIn', controllers.getSignIn)
 
-router.get('getCheckIn', controllers.getCheckIn)
+router.get('/getCheckIn', controllers.getCheckIn)
 
 router.get('/collectCheckIn', controllers.collectCheckIn)
+
+router.get('/getUncheckIn', controllers.getUncheckIn)
 
 module.exports = router

@@ -243,7 +243,7 @@ Page({
                           console.log('request fail', error);
                         }
                       })
-                    }, 3000)
+                    }, 30000)
                     clearInterval(setInter)
                   }
                 }, 1000)

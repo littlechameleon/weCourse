@@ -210,8 +210,8 @@ Page({
     distribution: [],
     isTeacher: 0,
     scores: [],
+    title: "",
     answer: Object,
-    fortest: [45,28,23,15],
   },
 
 

@@ -1,0 +1,71 @@
+/* pages/signInResult/signInResult.wxss */
+.title{
+  margin: 20rpx 0;
+  width: 100%;
+  border-bottom: 1rpx #bbb solid;
+}
+
+.chapter-title{
+  font-size: 30rpx;
+  padding: 10rpx 0rpx 10rpx 30rpx;
+}
+
+.sign-pie{
+  width: 720rpx;
+  height: 400rpx;
+  margin: 0 15rpx;
+  box-shadow: 0 0 10rpx #B09999;
+}
+
+.sign-pie-part{
+  width: 100%;
+}
+
+.sign-pie-title, .uncheck-title{
+  margin: 0 0 0 20rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+}
+
+.sign-table-part, .uncheck-table{
+  font-size: 30rpx;
+  width: 720rpx;
+  margin: 10rpx 15rpx 20rpx;
+}
+
+.pie-part{
+  padding: 20rpx 0;
+  border-top: 1rpx #bbb dashed;
+  border-bottom: 1rpx #bbb dashed;
+}
+
+.table {
+  border: 0px solid darkgray;
+}
+.tr {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  height: 80rpx;
+  align-items: center;
+}
+.td {
+    width:50%;
+    justify-content: center;
+    text-align: center;
+}
+.bg-w{
+  background: snow;
+}
+.bg-g{
+  background: #E6F3F9;
+}
+.th {
+  width: 50%;
+  justify-content: center;
+  background: #3366FF;
+  color: #fff;
+  display: flex;
+  height: 80rpx;
+  align-items: center;
+}

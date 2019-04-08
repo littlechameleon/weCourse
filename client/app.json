@@ -10,7 +10,8 @@
     "pages/testDetail/testDetail",
     "pages/addStudent/addStudent",
     "pages/testResult/testResult",
-    "pages/signIn/signIn"
+    "pages/signIn/signIn",
+    "pages/signInResult/signInResult"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -19,5 +20,10 @@
     "navigationBarTitleText": "weCourse",
     "navigationBarTextStyle": "black"
   },
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序签到定位"
+    }
+  }
 }

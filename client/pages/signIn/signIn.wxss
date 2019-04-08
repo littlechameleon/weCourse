@@ -14,10 +14,6 @@
   font-size: 32rpx;
 }
 
-.submit-button{
-  margin-top: 30rpx;
-}
-
 .last-count{
   float: right;
   margin-right: 30rpx;
@@ -44,6 +40,7 @@
   background-color: #ddd;
   margin: 10rpx 0;
   padding: 20rpx;
+  box-shadow: 0 0 5rpx #B09999;
 }
 
 .start-test{
@@ -54,15 +51,23 @@
   width: 100%;
 }
 
-.radio-main{
-  font-size: 32rpx;
-  margin: 5rpx 30rpx;
+.info-rule{
+  font-size: 28rpx;
+  padding-bottom: 10rpx;
+  width:100%;
+  margin-left:30rpx;
+  color:#E6A23C;
 }
 
-.radio-choose{
-  font-size: 30rpx;
+.location-map{
+  width:720rpx;
+  height:400rpx;
+  margin: 0 15rpx 10rpx;
+  border:1rpx solid #909399;
+  box-shadow: 0 0 10rpx #B09999;
 }
 
-.radio-part{
-  margin: 5rpx 60rpx;
+.check-in{
+  width: 100%;
+  margin: 50rpx 0 0;
 }

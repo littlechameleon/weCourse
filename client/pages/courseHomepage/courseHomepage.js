@@ -17,6 +17,8 @@ Page({
     chapter: -1,
     signState: 0,   //点名开启状态
     checkState: 0,  //是否签到状态
+    signIn: null,
+    isTeacher: 0,
   },
 
   bindtaptest: function(){
@@ -37,9 +39,38 @@ Page({
     } else {
       let isTeacher = this.data.userInfo.openId === this.data.course.teacher_id ? 1 : 0
       let chapter = this.data.chapterList[this.data.chapter]
-      wx.navigateTo({
-        url: '../signIn/signIn?chapterId=' + chapter.chapter_id + '&sequence=' + chapter.sequence + '&title=' + chapter.title + '&isTeacher=' + isTeacher,
-      })
+        wx.request({
+          url: config.service.requestUrl + 'getSignIn',
+          data: {
+            chapterId: chapter.chapter_id,
+          },
+          success: res => {
+            if (res.data.code == 0) {
+              this.setData({
+                signIn: res.data.data.signIn
+              })
+              if (this.data.signIn && this.data.signIn.state == 2) {
+                wx.redirectTo({
+                  url: '../signInResult/signInResult?chapterId=' + chapter.chapter_id + '&sequence=' + chapter.sequence + '&title=' + chapter.title + '&isTeacher=' + isTeacher,
+                })
+              } else if (!this.data.signIn && isTeacher == 0){
+                util.showModel('fail' ,'签到未开启！')
+              }else{
+                wx.navigateTo({
+                  url: '../signIn/signIn?chapterId=' + chapter.chapter_id + '&sequence=' + chapter.sequence + '&title=' + chapter.title + '&isTeacher=' + isTeacher,
+                })
+              }
+            }
+            else {
+              util.showModel('fail', '签到结果获取失败！');
+              console.log('request fail');
+            }
+          },
+          fail: error => {
+            util.showModel('签到结果获取失败', error);
+            console.log('request fail', error);
+          }
+        })
     }
   },
 
@@ -68,6 +99,11 @@ Page({
             chapterList: res.data.data.chapterList,
             course: res.data.data.course,
           })
+          if (this.data.userInfo.openId === this.data.course.teacher_id) {
+            this.setData({
+              isTeacher: 1,
+            })
+          }
         }
         else{
           util.showModel('fail', '课程信息获取失败');

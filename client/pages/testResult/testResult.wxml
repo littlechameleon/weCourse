@@ -57,7 +57,7 @@
 
         <view class='bar-box'>
           <ec-canvas tuData='{{distribution[index]}}' id='mychart-dom-bar-{{index}}' canvas-id='mychart-bar-{{index}}' ec='{{ec}}'></ec-canvas>
-        </view> 
+        </view>
 
       </view>
     </form>

@@ -1,0 +1,58 @@
+<!--pages/signInResult/signInResult.wxml-->
+<view class='container'>
+    <view class='title'>
+      <text class='chapter-title'>第{{sequence + 1}}节  {{title}}</text>
+    </view>
+
+    <view class='sign-pie-part'>
+      <text class='sign-pie-title'>签到结果</text>
+
+      <view class='sign-table-part'>
+        <view class="table">
+          <view class="tr bg-w">
+            <view class="th">总人数</view>
+            <view class="th">已签到</view>
+            <view class="th">未签到</view>
+            <view class="th" wx:if='{{isTeacher == 0}}'>是否完成</view>
+          </view>
+          <view class="tr bg-g">
+            <view class="td">{{signIn.number + signIn.absent}}</view>
+            <view class="td">{{signIn.number}}</view>
+            <view class="td">{{signIn.absent}}</view>
+            <view class="td" wx:if='{{isTeacher == 0}}'>{{checkState}}</view>
+          </view>
+        </view>
+      </view>
+
+      <view class='pie-part'>
+        <view class='sign-pie' wx:if='{{signIn}}'>
+          <ec-canvas tuData='{{signIn}}' id='mychart-dom-pie' canvas-id='mychart-pie' ec='{{ecPie}}'></ec-canvas>
+        </view>
+      </view>
+
+    </view>
+
+    <view class='uncheck-part' wx:if='{{isTeacher == 1}}'>
+      <text class='uncheck-title'>未签到学生</text>
+      <view class='uncheck-table'>
+        <view class="table">
+          <view class="tr bg-w">
+            <view class="th">姓名</view>
+            <view class="th">学号</view>
+          </view>
+          <block wx:for="{{unCheckIn}}" wx:key="{{index}}">
+            <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
+              <view class="td">{{item.name}}</view>
+              <view class="td">{{item.register_id}}</view>
+            </view>
+            <view class="tr" wx:else>
+              <view class="td">{{item.name}}</view>
+              <view class="td">{{item.register_id}}</view>
+            </view>
+          </block>
+        </view>
+      </view>
+    </view>
+
+</view>
+

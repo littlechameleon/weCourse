@@ -27,6 +27,8 @@ Page({
       wx.navigateTo({
         url: '../testResult/testResult?testId=' + e.currentTarget.dataset.id + '&sequence=' + this.data.sequence + '&title=' + this.data.title + '&isTeacher=' + this.data.isTeacher,
       })
+    } else if (this.data.testList[e.currentTarget.dataset.index].state == 0 && this.data.isTeacher == 0){
+      util.showModel('fail', '测试题目还未开启！')
     }else{
       wx.navigateTo({
         url: '../testDetail/testDetail?testId=' + e.currentTarget.dataset.id + '&isTeacher=' + this.data.isTeacher + '&sequence=' + this.data.sequence + '&title=' + this.data.title,

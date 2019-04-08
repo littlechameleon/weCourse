@@ -1,6 +1,11 @@
 // pages/signIn/signIn.js
 var config = require('../../config')
 var util = require('../../utils/util.js')
+var wscoordinate = require('../../utils/WSCoordinate.js')
+var QQMapWX = require('../../utils/qqmap-wx-jssdk.js');
+var qqmapsdk = new QQMapWX({
+  key: 'NTSBZ-REF6O-HMLW5-SQUW4-7HHS2-W2BNC'
+})
 
 const app = getApp()
 Page({
@@ -10,19 +15,18 @@ Page({
    */
   data: {
     isTeacher: 0,
-    testId: "",
+    chapterId: -1,
     userInfo: {},
-    test: {},
-    radioList: [],
-    question: [],
+    signIn: null,
     durations: [3, 5, 8, 10, 15],
     duration: -1,
     title: "",
-    result: [],
-    answerState: '开始答题',     //回答状态
     sequence: 0,
-    testState: '开始测试',
+    signInState: '开启签到',
     enablePicker: false,
+    location: null,
+    checkIn: null,
+    enableCheckIn: false,
   },
 
   changeDuration: function (e) {
@@ -31,121 +35,159 @@ Page({
     })
   },
 
-  submitAnswer: function (value) {
-    //提交作答
-    util.showBusy('正在提交中')
-    value = JSON.stringify(value)
-    console.log(value)
-    wx.request({
-      url: config.service.requestUrl + 'addAnswer',
-      data: {
-        testId: this.data.testId,
-        openId: this.data.userInfo.openId,
-        answer: value,
-      },
-      method: 'POST',
-      header: {
-        "content-type": "application/x-www-form-urlencoded"
-      },
+  getLocation: function(){
+    wx.getSetting({
       success: res => {
-        if (res.data.code == 0) {
-          if (res.data.data.repeat == 1) {
-            util.showModel('提交失败', '您已经提交过作答，请勿重复提交！')
-          }
-          else {
-            util.showSuccess('提交成功！')
-          }
-          wx.redirectTo({
-            url: '../testResult/testResult?testId=' + this.data.testId + '&sequence=' + this.data.sequence + '&title=' + this.data.title + '&isTeacher=' + this.data.isTeacher,
+        console.log(res)
+        if (res.authSetting['scope.userLocation'] != undefined && res.authSetting['scope.userLocation'] != true) {
+          wx.showModal({
+            title: '请求授权当前位置',
+            content: '需要获取您的地理位置，请确认授权',
+            success: function (res) {
+              if (res.cancel) {
+                wx.showToast({
+                  title: '拒绝授权',
+                  icon: 'none',
+                  duration: 1000
+                })
+              } else if (res.confirm) {
+                wx.openSetting({
+                  success: function (dataAu) {
+                    if (dataAu.authSetting["scope.userLocation"] == true) {
+                      wx.showToast({
+                        title: '授权成功',
+                        icon: 'success',
+                        duration: 1000
+                      })
+                      wx.getLocation({
+                        type: 'gcj02',
+                        success: res => {
+                          console.log(res)
+                          this.setData({
+                            location: res,
+                          })
+                        },
+                      })
+                    } else {
+                      wx.showToast({
+                        title: '授权失败',
+                        icon: 'none',
+                        duration: 1000
+                      })
+                    }
+                  }
+                })
+              }
+            }
           })
         } else {
-          util.showModel('提交失败！', '提交失败，请确认是否全部回答完');
-          console.log('request fail');
+          wx.getLocation({
+            type: 'gcj02',
+            success: res => {
+              console.log(res)
+              this.setData({
+                location: res,
+              })
+            },
+          })
         }
-      },
-      fail(error) {
-        util.showModel('提交失败', error);
-        console.log('request fail', error);
       }
     })
   },
 
-  formSubmit: function (e) {
-    if (this.data.answerState == '开始答题') {
-      let _this = this
-      let setInter = setInterval(function () {
-        if (new Date() > new Date(_this.data.test.end_time)) {
-          console.log(e.detail.value)
-          console.log(e.detail)
-          console.log(e)
-          _this.submitAnswer(e.detail.value)
-          clearInterval(setInter)
-        }
-      }, 1000)
-      this.setData({
-        answerState: '提 交'
-      })
-    } else {
-      console.log(e.detail.value)
-      console.log(e.detail)
-      console.log(e)
-      let value = e.detail.value
-      for (let obj in value) {
-        if (value[obj].length == 0) {
-          util.showModel('提交失败', '题目还没做完！');
-          return
-        }
+  startCheckIn: function(){
+    if (!this.data.location) {
+      util.showModel('定位失败', '请允许小程序获取位置权限！')
+      this.getLocation()
+    }else{
+      //计算师生距离
+      let teacherLocation = wscoordinate.transformFromGCJToWGS(this.data.signIn.latitude, this.data.signIn.longitude)
+      let studentLocation = wscoordinate.transformFromGCJToWGS(this.data.location.latitude, this.data.location.longitude)
+      let distance = wscoordinate.distanceByLongNLat(teacherLocation.longitude, teacherLocation.latitude, studentLocation.longitude, studentLocation.latitude)
+      console.log('距离为： ' + distance)
+      if(distance < 200){
+        wx.request({
+          url: config.service.requestUrl + 'checkIn',
+          data:{
+            openId: this.data.userInfo.openId,
+            chapterId: this.data.chapterId,
+            longitude: this.data.location.longitude,
+            latitude: this.data.location.latitude,
+            distance: distance,
+          },
+          success: res=>{
+            if (res.data.code == 0) {
+              this.setData({
+                signInState: '已签到',
+                enableCheckIn: true,
+              })
+              util.showModel('签到成功', '你是第' + res.data.data.rank + '个签到的人!')
+            }
+            else {
+              util.showModel('fail', '签到失败');
+              console.log('request fail');
+            }
+          },
+          fail: error => {
+            util.showModel('签到失败', error);
+            console.log('request fail', error);
+          }
+        })
+      }else{
+        util.showModal('签到失败', '距离过远，打开手机位置定位会更准确哦！')
       }
-      this.submitAnswer(value)
     }
-
   },
 
-
-  startTest: function (e) {
+  startSignIn: function (e) {
     if (this.data.duration === -1) {
       util.showModel('操作失败', '请先选择定时');
-    } else {
+    } else if(!this.data.location){
+      util.showModel('定位失败', '请允许小程序获取位置权限！')
+      this.getLocation()
+    }else{
       wx.request({
-        url: config.service.requestUrl + 'startTest',
+        url: config.service.requestUrl + 'startSignIn',
         data: {
           duration: this.data.duration,
-          testId: this.data.testId,
+          chapterId: this.data.chapterId,
+          longitude: this.data.location.longitude,
+          latitude: this.data.location.latitude,
         },
         success: res => {
           if (res.data.code == 0) {
             this.setData({
-              test: res.data.data.test
+              signIn: res.data.data.signIn
             })
             let _this = this
             let setInter = setInterval(function () {
               let now = new Date()
-              if (now < new Date(_this.data.test.end_time)) {
+              if (now < new Date(_this.data.signIn.end_time)) {
                 _this.setData({
-                  testState: '测试剩余时间： ' + parseInt(((new Date(_this.data.test.end_time)).getTime() - now) / 1000) + 's',
-                  enablePicker: true
+                  signInState: '签到剩余时间： ' + parseInt(((new Date(_this.data.signIn.end_time)).getTime() - now) / 1000) + 's',
+                  enablePicker: true,
                 })
               } else {
                 _this.setData({
-                  testState: '测试已结束',
-                  enablePicker: true
+                  signInState: '签到已结束',
                 })
-                util.showBusy('收集测验结果中')
+                util.showBusy('收集签到结果中')
                 let __this = _this
                 setTimeout(function () {
                   wx.request({
-                    url: config.service.requestUrl + 'collectAnswer',
+                    url: config.service.requestUrl + 'collectCheckIn',
                     data: {
-                      testId: __this.data.testId,
+                      chapterId: __this.data.chapterId,
                     },
                     success: res => {
                       if (res.data.code == 0) {
+                        wx.hideToast();
                         wx.redirectTo({
-                          url: '../testResult/testResult?testId=' + __this.data.testId + '&sequence=' + __this.data.sequence + '&title=' + __this.data.title + '&isTeacher=' + __this.data.isTeacher,
+                          url: '../signInResult/signInResult?chapterId=' + __this.data.chapterId + '&sequence=' + __this.data.sequence + '&title=' + __this.data.title + '&isTeacher=' + __this.data.isTeacher,
                         })
                       }
                       else {
-                        util.showModel('fail', '测验结果收集失败');
+                        util.showModel('fail', '签到结果收集失败');
                         console.log('request fail');
                       }
                     },
@@ -154,19 +196,18 @@ Page({
                       console.log('request fail', error);
                     }
                   })
-                }, 30000)
+                }, 5000)
                 clearInterval(setInter)
               }
             }, 1000)
-            console.log('success')
           }
           else {
-            util.showModel('fail', '测验启动失败');
+            util.showModel('fail', '签到启动失败');
             console.log('request fail');
           }
         },
         fail: error => {
-          util.showModel('测试启动失败', error);
+          util.showModel('签到启动失败', error);
           console.log('request fail', error);
         }
       })
@@ -178,59 +219,82 @@ Page({
   onLoad: function (options) {
     this.setData({
       userInfo: app.globalData.userInfo,
-      testId: options.testId,
+      chapterId: options.chapterId,
       isTeacher: options.isTeacher,
       sequence: parseInt(options.sequence),
       title: options.title,
     })
+    this.getLocation()    
+
+    if(this.data.isTeacher == 0){
+      wx.request({
+        url: config.service.requestUrl + 'getCheckIn',
+        data: {
+          chapterId: this.data.chapterId,
+          openId: this.data.userInfo.openId,
+        },
+        success: res => {
+          if (res.data.code == 0) {
+            let checkIn = res.data.data.checkIn
+            if (checkIn) {
+              this.setData({
+                enableCheckIn: true,
+                signInState: '已签到'
+              })
+            }
+          }
+          else {
+            util.showModel('fail', '签到信息获取失败');
+            console.log('request fail');
+          }
+        },
+        fail: error => {
+          util.showModel('签到信息获取失败', error);
+          console.log('request fail', error);
+        }
+      })
+    }
+
     wx.request({
-      url: config.service.requestUrl + 'getTest',
+      url: config.service.requestUrl + 'getSignIn',
       data: {
-        testId: this.data.testId,
+        chapterId: this.data.chapterId,
       },
       success: res => {
         if (res.data.code == 0) {
-          this.setData({
-            test: res.data.data.test,
-            question: res.data.data.question,
-          })
-          if (this.data.test.state === 0) {
+          let signIn = res.data.data.signIn
+          if(signIn){
             this.setData({
-              testState: '开始测试',
-              enablePicker: false
+              signIn: signIn,
+              enablePicker: true,
+              duration: signIn.duration
             })
-          } else {
-            if (new Date(this.data.test.end_time) > new Date()) {
-              this.setData({
-                testState: '测试进行中',
-                enablePicker: true,
-                duration: this.data.test.duration
-              })
+            if(signIn.state == 1){
               let _this = this
               let setInter = setInterval(function () {
                 let now = new Date()
-                if (now < new Date(_this.data.test.end_time)) {
+                if (now < new Date(_this.data.signIn.end_time)) {
                   _this.setData({
-                    testState: '测试剩余时间： ' + parseInt(((new Date(_this.data.test.end_time)).getTime() - now) / 1000) + 's',
-                    enablePicker: true
+                    signInState: '签到剩余时间： ' + parseInt(((new Date(_this.data.signIn.end_time)).getTime() - now) / 1000) + 's',
                   })
                 } else {
                   _this.setData({
-                    testState: '测试已结束',
-                    enablePicker: true
+                    signInState: '签到已结束',
+                    enableCheckIn: true,
                   })
-                  util.showBusy('收集测验结果中')
+                  util.showBusy('收集签到结果中')
                   let __this = _this
                   setTimeout(function () {
                     wx.request({
-                      url: config.service.requestUrl + 'collectAnswer',
+                      url: config.service.requestUrl + 'collectCheckIn',
                       data: {
-                        testId: __this.data.testId,
+                        chapterId: __this.data.chapterId,
                       },
                       success: res => {
                         if (res.data.code == 0) {
+                          wx.hideToast();
                           wx.redirectTo({
-                            url: '../testResult/testResult?testId=' + __this.data.testId + '&sequence=' + __this.data.sequence + '&title=' + __this.data.title + '&isTeacher=' + __this.data.isTeacher,
+                            url: '../signInResult/signInResult?chapterId=' + __this.data.chapterId + '&sequence=' + __this.data.sequence + '&title=' + __this.data.title + '&isTeacher=' + __this.data.isTeacher,
                           })
                         }
                         else {
@@ -243,53 +307,48 @@ Page({
                         console.log('request fail', error);
                       }
                     })
-                  }, 3000)
+                  }, 5000)
                   clearInterval(setInter)
                 }
               }, 1000)
-            } else {
+            }
+            else{
               this.setData({
-                testState: '测试已结束',
-                enablePicker: true,
-                duration: this.data.test.duration
+                signInState: '签到已结束',
+                enableCheckIn: true
+              })
+              wx.request({
+                url: config.service.requestUrl + 'collectCheckIn',
+                data: {
+                  chapterId: this.data.chapterId,
+                },
+                success: res => {
+                  if (res.data.code == 0) {
+                    wx.redirectTo({
+                      url: '../signInResult/signInResult?chapterId=' + this.data.chapterId + '&sequence=' + this.data.sequence + '&title=' + this.data.title + '&isTeacher=' + this.data.isTeacher,
+                    })
+                  }
+                  else {
+                    util.showModel('fail', '测验结果收集失败');
+                    console.log('request fail');
+                  }
+                },
+                fail: error => {
+                  util.showModel('fail', error);
+                  console.log('request fail', error);
+                }
               })
             }
-          }
-          let question = this.data.question
-          let radioList = []
-          let result = []
-          for (let index in question) {
-            let singleResult = []
-            let radiosPart = question[index].radio.split('>')
-            radioList.push(radiosPart)
-            if (question[index].type == 0) {
-              singleResult[parseInt(question[index].result)] = 1
-              result.push(singleResult)
-            }
-            else {
-              for (let idx in question[index].result) {
-                singleResult[parseInt(question[index].result[idx])] = 1
-              }
-              result.push(singleResult)
-            }
-          }
-          this.setData({
-            radioList: radioList,
-            result: result,
-          })
-          if (this.data.test.state == 2) {
-            wx.redirectTo({
-              url: '../testResult/testResult?testId=' + this.data.testId + '&sequence=' + this.data.sequence + '&title=' + this.data.title + '&isTeacher=' + this.data.isTeacher,
-            })
+            
           }
         }
         else {
-          util.showModel('fail', '测试题目获取失败');
+          util.showModel('fail', '签到表获取失败');
           console.log('request fail');
         }
       },
       fail: error => {
-        util.showModel('测试题目获取失败', error);
+        util.showModel('签到表获取失败', error);
         console.log('request fail', error);
       }
     })

@@ -7,7 +7,7 @@
 
 .bar-box{
   width: 250rpx;
-  height: 240rpx;
+  height: 220rpx;
   margin: 0 20rpx;
   display: inline-block;
 }
@@ -39,7 +39,7 @@ ec-canvas{
 
 .score-part{
   font-size: 30rpx;
-  width: 700rpx;
+  width: 720rpx;
   margin: 10rpx 0;
 }
 
