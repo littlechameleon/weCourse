@@ -14,11 +14,13 @@
     "pages/signInResult/signInResult"
   ],
   "window": {
-    "backgroundColor": "#F6F6F6",
-    "backgroundTextStyle": "dark",
-    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarBackgroundColor": "#39b54a",
     "navigationBarTitleText": "weCourse",
-    "navigationBarTextStyle": "black"
+    "navigationStyle": "custom",
+    "navigationBarTextStyle": "white"
+  },
+  "usingComponents": {
+    "cu-custom": "/colorui/components/cu-custom"
   },
   "sitemapLocation": "sitemap.json",
   "permission": {

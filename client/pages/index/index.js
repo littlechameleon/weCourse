@@ -31,6 +31,12 @@ Page({
       this.getAllCourse()
     },
 
+    bindtapAddCourse:function(){
+      wx.navigateTo({
+        url: '../addCourse/addCourse',
+      })
+    },
+
     onPullDownRefresh: function () {
       wx.showNavigationBarLoading();
       this.getAllCourse();

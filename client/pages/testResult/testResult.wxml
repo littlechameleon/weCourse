@@ -63,9 +63,9 @@
     </form>
   </view>
 
-  <view class='score-list-part'>
+  <view class='score-list-part' wx:if='{{isTeacher != 0}}'>
     <text class='score-list-title'>学生成绩排行</text>
-    <view class='score-list' wx:if='{{isTeacher != 0}}' wx:for='{{scores}}' wx:key='index' wx:if='{{index == 0}}' style='height: {{(scores.length * 80) + "rpx"}};'>
+    <view class='score-list' wx:for='{{scores}}' wx:key='index' wx:if='{{index == 0}}' style='height: {{(scores.length * 80) + "rpx"}};'>
       <ec-canvas tuData='{{scores}}' id='mychart-dom-bar' canvas-id='mychart-bar' ec='{{ecBar}}'></ec-canvas>
     </view>
   </view>

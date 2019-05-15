@@ -10,6 +10,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    StatusBar: app.globalData.StatusBar,
+    CustomBar: app.globalData.CustomBar,
     userInfo: {},
     courseId: "",
     chapterList: [],
@@ -19,6 +21,7 @@ Page({
     checkState: 0,  //是否签到状态
     signIn: null,
     isTeacher: 0,
+    imgSrc: null,
   },
 
   bindtaptest: function(){
@@ -87,6 +90,7 @@ Page({
     this.setData({
       userInfo: app.globalData.userInfo,
       courseId: options.courseId,
+      imgSrc: "https://ossweb-img.qq.com/images/lol/web201310/skin/big1000" + options.courseId%10 + ".jpg"
     }),
     wx.request({
       url: config.service.requestUrl + 'getCourseInfo',

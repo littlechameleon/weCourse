@@ -16,7 +16,7 @@ module.exports = async ctx => {
     number: 0,
     longitude: longitude,
     latitude: latitude,
-    absence: 0,
+    absent: 0,
   }
   let result = await mysql('signIn').insert(signIn)
 

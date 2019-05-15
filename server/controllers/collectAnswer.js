@@ -23,7 +23,7 @@ module.exports = async ctx => {
   let lowest = await mysql('score').min('score').where('test_id', testId)
   let highest = await mysql('score').max('score').where('test_id', testId)
   for(let index in score){
-    let scores = await mysql('score').where('score', '>', score[index].score)
+    let scores = await mysql('score').where('score', '>', score[index].score)     //缺少一个条件
     await mysql('score').update('rank', scores.length + 1).where('id', score[index].id)
   }
   await mysql('test').update({ number: score.length, state: 2, average: parseFloat(average[0]['avg(`score`)'].toFixed(2)), lowest: lowest[0]['min(`score`)'], highest:highest[0]['max(`score`)']}).where('test_id', testId)

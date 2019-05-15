@@ -1,48 +1,68 @@
 <!--pages/courseHomepage/courseHomepage.wxml-->
-<view class='container'>
+<view class='page'>
+  <cu-custom bgColor="bg-gradual-green" isBack="{{true}}">
+    <view slot="backText"></view>
+    <view slot="content">课程主页</view>
+  </cu-custom>
 
-  <view class='course-info'>
-    <view class='course-id'>
-      <text>课程号：{{courseId}} | </text>
-      <text wx:if='{{course.state===0}}'>正在开课</text>
-      <text wx:if='{{course.state===1}}'>已经结课</text>
-    </view>
-    <view class='course-name'>
-      <text>{{course.title}}</text>
-    </view>
-    <view class='course-detail'>
-      <text>地点：{{course.place}} | 时间：{{course.time}}</text>
-    </view>
-  </view>
-
-  <view class='chapter'>
-    <picker bindchange='bindchange' range-key="title" value="{{chapter}} " range='{{chapterList}}'>
-      <view class='picker'>
-        <text class='chapter-select'>请选择章节：</text>
-        <text wx-if="{{chapter == -1}}" class='chapter-title'>未选择</text>
-        <text wx-if="{{chapter != -1}}" class='chapter-title'>第{{chapterList[chapter].sequence + 1}}节  {{chapterList[chapter].title}}</text>
+  <view class="cu-card case">
+    <view class="cu-item shadow radius">
+      <view class="image">
+        <image mode="widthFix" src= "{{imgSrc}}"></image>
+        <view class="cu-tag bg-blue">{{course.state==0? '正在进行':'已结束'}}</view>
+        <view class="cu-bar bg-shadeBottom">
+          <text class='course-info'>地点：{{course.place}}</text>
+          <text class='course-info'>时间：{{course.time}}</text>
+        </view>
       </view>
-    </picker>
+      <view class="cu-list menu-avatar">
+        <view class="cu-item">
+          <view class="cu-avatar round lg" style="background-image:url({{imgSrc}});"></view>
+          <view class="content flex-sub">
+            <view class="text-grey">{{course.title}}</view>
+            <view class="text-gray text-sm flex justify-between">
+              课程号：{{courseId}}
+              <view class="text-gray text-sm">
+                <text class="cuIcon-group_fill margin-lr"></text> {{course.number}}
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
   </view>
 
-  <view class='operations'>
-
-    <!-- <form bindsubmit='formSubmit' report-submit='true'>
-      <button form-type='submit'>签到(发送模板消息)</button>
-    </form> -->
-
-    <view class="operation-test">
-        <view class="test" bindtap='bindtaptest'>
-            <text>课堂测验</text>
-        </view>
+  <view class="cu-form-group select-chapter shadow shadow-lg radius">
+		<view class="title">
+      <text class="cuIcon-title text-orange "></text> 选择章节
     </view>
+		<picker bindchange="bindchange" range-key="title" value="{{chapter}}" range="{{chapterList}}">
+			<view class="picker">
+				{{chapter != -1?'第' + (chapterList[chapter].sequence + 1) + '节 ' +chapterList[chapter].title:'未选择'}}
+			</view>
+		</picker>
+	</view>
 
-    <view class="operation-test">
-        <view class="test" bindtap='bindtapSignIn'>
-            <text>签到</text>
-        </view>
+  <view class='operations cu-list menu sm-border card-menu margin-top'>
+    <view class="cu-item arrow" bindtap='bindtaptest'>
+      <view class="content">
+        <text class="cuIcon-circlefill text-orange"></text>
+        <text class="text-grey">课堂测验</text>
+      </view>
     </view>
-
+    <view class="cu-item arrow"  bindtap='bindtapSignIn'>
+      <view class="content">
+        <text class="cuIcon-circlefill text-olive"></text>
+        <text class="text-grey">签到</text>
+      </view>
+    </view>
+    <view class="cu-item arrow"  bindtap='bindtapQuiz'>
+      <view class="content">
+        <text class="cuIcon-circlefill text-cyan"></text>
+        <text class="text-grey">课堂提问</text>
+      </view>
+    </view>
   </view>
+
 </view>
 

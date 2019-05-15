@@ -1,15 +1,19 @@
 <!--index.wxml-->
 <view class="container">
     <!-- 用户登录测试 -->
-    <view class="userinfo">
-        <image
-            class="userinfo-avatar"
-            src="{{logged ? userInfo.avatarUrl : './user-unlogin.png'}}"
-            background-size="cover"
-        ></image>
-        <view>
+    <cu-custom bgColor="bg-gradual-pink" isBack="{{false}}">
+      <view slot="backText"></view>
+      <view slot="content">weCourse</view>
+    </cu-custom>
+    <view class="cu-bar bg-white userinfo shadow shadow-lg radius margin-top flex">
+        <view class='basis-xs'>
+          <view class="cu-avatar lg round" style="background-image:url({{logged ? userInfo.avatarUrl : './user-unlogin.png'}});margin: 15rpx">
+            <view class="cu-tag badge {{userInfo.gender==0?'cuIcon-female bg-pink':'cuIcon-male bg-blue'}}"></view>
+          </view>
+        </view>
+        <view class='basis-xl'>
             <button class="userinfo-nickname" wx:if="{{!logged}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">点击登录</button>
-            <text class="userinfo-nickname" wx:else>{{userInfo.nickName}}</text>
+            <text class="userinfo-nickname text-cut" style='width:550rpx' wx:else>{{userInfo.nickName}}</text>
         </view>
     </view>
 
@@ -37,30 +41,71 @@
         </navigator>
     </view> -->
 
-    <view class='teaching page__teaching'>
-      <view class='learning-course-title'>
-        <text>学习 </text>
-        <switch bindchange='switchChange'/>
-        <text> 教授</text>
-      </view>
-      <view class='course-list'>
-        <view wx:for="{{courseList}}" data-id='{{item.course_id}}' wx:key='course_id' class='course'  bindtap="enterCourse"> 
-          <text class='course-title'>{{item.title}}</text>
-        </view>
 
-        <view bindtap="createCourse" class="course" wx:if='{{type !== 0}}'>
-          <image class='add-image' src="../../assets/image/add.png" mode="cover"></image>
+    <view class='course-list shadow shadow-lg radius'>
+
+      <view class="cu-bar bg-white solid-bottom margin-top">
+        <view class='action'>
+          <text class='cuIcon-titles text-orange '></text> 
+          <text>{{type==0?'学习':'教授'}}</text>
+        </view>
+        <view class='action'>
+          <switch class='sm' checked='{{isCard}}' bindchange='switchChange'></switch>
         </view>
       </view>
     </view>
+    
 
-        <!-- 上传图片测试 -->
-    <view class="uploader">
-        <navigator url="../addCourse/addCourse" open-type="navigate" class="uploader-text">
-            <text>待定</text>
-        </navigator>
+      <view class=''>
+        <view wx:for="{{courseList}}" data-id='{{item.course_id}}' wx:key='course_id'  bindtap="enterCourse"> 
+          <view class="cu-card article">
+            <view class="cu-item shadow shadow-lg" style='margin-bottom: 0'>
+              <view class="content margin-top">
+                <image src="{{'https://ossweb-img.qq.com/images/lol/web201310/skin/big1000'+ item.course_id%10 + '.jpg'}}" mode="aspectFill" style='width:240rpx'></image>
+                <view class="desc">
+                  <view class="text-content">
+                    <view class='margin-top-xs flex text-xl text-black text-cut' style="font-weight:600; margin-bottom:30rpx;">
+                      <view class='basis-xl text-cut'  style='width: 360rpx'>{{item.title}}</view>
+                      <view class='basis-xs'>
+                        <text class="text-gray cuIcon-group_fill margin-lr-xs"></text> 
+                        <text class='text-gray text-sm text-df'>{{item.number}}</text>
+                      </view>
+
+                    </view>
+                    <view class='text-sm text-cut' style='width: 360rpx'>
+                      <view class="cu-tag bg-green light sm round">地点</view>
+                      <!-- {{item.place}} -->
+                      <text class='text-gray margin-left-xs'>{{item.place}}</text>
+                    </view>
+          
+                  </view>
+                  <view>
+                    <view class='text-sm text-cut' style='width: 360rpx'>
+                      <view class="cu-tag bg-red light sm round">时间</view>
+                      <text class='text-gray margin-left-xs'>{{item.time}}</text>
+                    </view>  
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+    <view class='operations cu-list menu sm-border card-menu margin-top'>
+      <view wx:if='{{type==1}}' class="cu-item arrow" bindtap='bindtapAddCourse'>
+        <view class="content">
+          <text class="cuIcon-circlefill text-orange"></text>
+          <text class="text-grey">创建课程</text>
+        </view>
+      </view>
+      <!-- <view class="cu-item arrow"  bindtap='bindtapSignIn'>
+        <view class="content">
+          <text class="cuIcon-circlefill text-olive"></text>
+          <text class="text-grey">签到</text>
+        </view>
+      </view> -->
     </view>
-
 
 
 </view>

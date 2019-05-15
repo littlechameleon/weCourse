@@ -16,6 +16,9 @@ function setOption(chart) {
     //     fontSize: 16
     //   }
     // },
+    textStyle: {
+      fontSize: 16
+    },
     tooltip:{
       position: function (pos, params, dom, rect, size) {
         // 鼠标在左侧时 tooltip 显示到右侧，鼠标在右侧时 tooltip 显示到左侧。
@@ -23,14 +26,23 @@ function setOption(chart) {
         obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 5;
         return obj;
       },
+      textStyle:{
+        fontSize: 18
+      },
       formatter:'{b}: {c} ({d}%)'
+    },
+    legend:{
+      data: ['已签到','未签到'],
+      textStyle:{
+        fontSize: 18
+      }
     },
     backgroundColor: "#ffffff",
     color: ["#37A2DA", "#32C5E9", "#67E0E3", "#91F2DE", "#FFDB5C", "#FF9F7F"],
     series: [{
       label: {
         normal: {
-          fontSize: 14
+          fontSize: 16
         }
       },
       type: 'pie',
