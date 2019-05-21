@@ -42,9 +42,9 @@
     </view> -->
 
 
-    <view class='course-list shadow shadow-lg radius'>
+    <view class='course-list radius'>
 
-      <view class="cu-bar bg-white solid-bottom margin-top">
+      <view class="cu-bar bg-white radius shadow solid-bottom margin-top">
         <view class='action'>
           <text class='cuIcon-titles text-orange '></text> 
           <text>{{type==0?'学习':'教授'}}</text>
@@ -58,8 +58,8 @@
 
       <view class=''>
         <view wx:for="{{courseList}}" data-id='{{item.course_id}}' wx:key='course_id'  bindtap="enterCourse"> 
-          <view class="cu-card article">
-            <view class="cu-item shadow shadow-lg" style='margin-bottom: 0'>
+          <view class="cu-card article shadow">
+            <view class="cu-item shadow" style='margin-bottom: 0'>
               <view class="content margin-top">
                 <image src="{{'https://ossweb-img.qq.com/images/lol/web201310/skin/big1000'+ item.course_id%10 + '.jpg'}}" mode="aspectFill" style='width:240rpx'></image>
                 <view class="desc">
@@ -92,19 +92,25 @@
         </view>
       </view>
 
-    <view class='operations cu-list menu sm-border card-menu margin-top'>
+    <view class='operations shadow cu-list menu sm-border card-menu margin-top'>
       <view wx:if='{{type==1}}' class="cu-item arrow" bindtap='bindtapAddCourse'>
         <view class="content">
           <text class="cuIcon-circlefill text-orange"></text>
           <text class="text-grey">创建课程</text>
         </view>
       </view>
-      <!-- <view class="cu-item arrow"  bindtap='bindtapSignIn'>
+      <view class="cu-item arrow"  bindtap='bindtapAllFeedback'>
         <view class="content">
-          <text class="cuIcon-circlefill text-olive"></text>
-          <text class="text-grey">签到</text>
+          <text class="cuIcon-circlefill text-mauve"></text>
+          <text class="text-grey">交流反馈</text>
         </view>
-      </view> -->
+      </view>
+      <view class="cu-item arrow"  bindtap='bindtapTimeLine'>
+        <view class="content">
+          <text class="cuIcon-circlefill text-green"></text>
+          <text class="text-grey">时间轴</text>
+        </view>
+      </view>
     </view>
 
 

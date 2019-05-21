@@ -1,0 +1,69 @@
+<!--pages/quiz/quiz.wxml-->
+<view class='page'>
+  <cu-custom bgImage="https://image.weilanwl.com/color2.0/plugin/sylb2244.jpg" isCustom="{{true}}">
+    <view slot="backText"></view>
+    <view slot="content">提问学生</view>
+  </cu-custom>
+
+  <view class="cu-modal {{dialogShow?'show':''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content text-cyan">提问评分</view>
+        <view class="action" bindtap="hideModal">
+          <text class="cuIcon-close text-red"></text>
+        </view>
+      </view>
+      <view class="padding-xl">
+        <view class='bg-orange cu-tag'>{{student.name}}【{{student.register_id}}】</view>
+        <view class='flex margin-tb margin-lr-xl'>
+          <text wx:for='{{5}}' data-id='{{index}}' wx:key class="flex-sub {{index<score?'cuIcon-favorfill':'cuIcon-favor'}}" bindtap='bindtapMark'></text>    
+        </view>
+      </view>
+      <view class="cu-bar bg-white justify-end">
+        <view class="action">
+          <button class="cu-btn line-green text-green" bindtap="hideModal">取消</button>
+          <button class="cu-btn bg-green margin-left" bindtap="addQuiz">确定</button>
+
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="cu-bar bg-white search fixed" style="top:{{CustomBar}}px;">
+    <view class="search-form round">
+      <text class="cuIcon-warnfill"></text>
+      <text class='text-orange'>{{student?student.name + ' 学号：' + student.register_id:'从列表中选择学生或随机选择提问'}}</text>
+    </view>
+    <view class="action">
+      <button class="cu-btn bg-gradual-green shadow-blur round" bindtap='chooseRandomStudent'>随机选择</button>
+    </view>
+  </view>
+  <scroll-view scroll-y class="indexes" scroll-into-view="indexes-{{listCurID}}" style="height:calc(100vh - {{CustomBar}}px - 50px)" scroll-with-animation="true" enable-back-to-top="true">
+    <block wx:for="{{list}}" wx:key wx:if='{{sortedStudentList[list[index]][0]}}'>
+      <view class="padding indexItem-{{list[index]}}" id="indexes-{{list[index]}}" data-index="{{list[index]}}">{{list[index]}}</view>
+      <view class="cu-list menu-avatar no-padding">
+        <view class="cu-item" wx:for="{{sortedStudentList[list[index]]}}" wx:key wx:for-index="sub" wx:for-item='student' data-index='{{index}}' data-sub='{{sub}}' bindtap='bindtapChooseStudent'>
+          <view class="cu-avatar lg round" style="background-image:url({{student.avatarUrl ? student.avatarUrl : './user-unlogin.png'}});">
+            <view class="cu-tag badge {{student.gender==0?'cuIcon-female bg-pink':'cuIcon-male bg-blue'}}"></view>
+          </view>
+          <view class="content">
+            <view class="text-grey">
+              <text class="text-abc">{{student.name}}</text></view>
+            <view class="text-gray text-sm">
+              学号：{{student.register_id}}
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+  </scroll-view>
+  <view class="indexBar" style="height:calc(100vh - {{CustomBar}}px - 50px)">
+    <view class="indexBar-box" bindtouchstart="tStart" bindtouchend="tEnd" catchtouchmove="tMove">
+      <view class="indexBar-item" wx:for="{{list}}" wx:key id="{{index}}" bindtouchstart="getCur" bindtouchend="setCur">{{list[index]}}</view>
+    </view>
+  </view>
+  <!--选择显示-->
+  <view hidden="{{hidden}}" class="indexToast">
+    {{listCur}}
+  </view>
+</view>

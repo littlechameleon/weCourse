@@ -11,7 +11,12 @@
     "pages/addStudent/addStudent",
     "pages/testResult/testResult",
     "pages/signIn/signIn",
-    "pages/signInResult/signInResult"
+    "pages/signInResult/signInResult",
+    "pages/quiz/quiz",
+    "pages/quizHistory/quizHistory",
+    "pages/feedback/feedback",
+    "pages/chat/chat",
+    "pages/groupChat/groupChat"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",

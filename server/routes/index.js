@@ -68,4 +68,20 @@ router.get('/collectCheckIn', controllers.collectCheckIn)
 
 router.get('/getUncheckIn', controllers.getUncheckIn)
 
+router.get('/getStudentList', controllers.getStudentList)
+
+router.get('/getSelfQuiz', controllers.getSelfQuiz)
+
+router.get('/getQuiz', controllers.getQuiz)
+
+router.get('/addQuiz', controllers.addQuiz)
+
+router.get('/getMessage', controllers.getMessage)
+
+router.get('/sendMessage', controllers.sendMessage)
+
+router.get('/getFeedback', controllers.getFeedback)
+
+router.get('/getAllFeedback', controllers.getAllFeedback)
+
 module.exports = router

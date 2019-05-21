@@ -10,6 +10,8 @@ module.exports = async (ctx, next) => {
         let userInfo = ctx.state.$wxInfo.userinfo.userinfo
         let openId = userInfo.openId
         let nickName = userInfo.nickName
+        let avatarUrl = userInfo.avatarUrl
+        let gender = userInfo.gender
         let result = await mysql('student').where('nickname', nickName)
         for(index in result){
           if(!result[index].open_id){
@@ -17,7 +19,7 @@ module.exports = async (ctx, next) => {
             let res = await mysql('student').where({open_id: openId, course_id: courseId})
             if(res.length === 0 ){
               let id = result[index].id
-              let done = await mysql('student').update({open_id : openId}).where('id', id)
+              let done = await mysql('student').update({open_id : openId, avatarUrl: avatarUrl, gender: gender}).where('id', id)
             }
           }
         }

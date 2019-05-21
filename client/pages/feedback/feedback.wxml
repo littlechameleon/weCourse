@@ -1,0 +1,64 @@
+<!--pages/feedback/feedback.wxml-->
+<view class='cu-custom'>
+  <view class="cu-bar fixed bg-shadeTop" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
+    <navigator class='action' open-type="navigateBack" delta="1" hover-class="none">
+      <text class='cuIcon-back'></text> 返回
+    </navigator>
+    <view class='content' style='top:{{StatusBar}}px;'>交流反馈</view>
+  </view>
+</view>
+<swiper class="screen-swiper round-dot" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
+  <swiper-item wx:for="{{4}}" wx:key>
+    <image src="https://image.weilanwl.com/img/4x3-{{index+1}}.jpg" mode='aspectFill'></image>
+  </swiper-item>
+</swiper>
+<view class="VerticalBox">
+  <scroll-view class="VerticalNav nav" scroll-y scroll-with-animation scroll-top="{{VerticalNavTop}}" style="height:calc(100vh - 375rpx);">
+    <view class="cu-item {{index==TabCur?'text-green cur':''}}" wx:for="{{list}}" wx:key bindtap='tabSelect' data-id="{{index}}">
+      <view class="text-cut" style='width:150rpx;'>{{item.name}}</view>
+    </view>
+  </scroll-view>
+  <scroll-view class="VerticalMain" scroll-y scroll-with-animation style="height:calc(100vh - 375rpx)" scroll-into-view="main-{{MainCur}}" bindscroll="VerticalMain">
+    <view class="padding-top padding-lr" wx:for="{{list}}" wx:key id="main-{{index}}">
+      <view class='cu-bar solid-bottom bg-white'>
+        <view class='action text-cut'>
+          <text class='cuIcon-title text-green'></text> {{item.name}} </view>
+      </view>
+
+      <view class="cu-list menu-avatar">
+        <view class="cu-item" data-course-id='{{course[index].course_id}}' bindtap='enterGroupChat'>
+          <view class="cu-avatar radius lg" style="background-image:url({{'https://ossweb-img.qq.com/images/lol/web201310/skin/big1000'+ course[index].course_id%10 + '.jpg'}});"></view>
+          <view class="content">
+            <view class="text-pink">课程群</view>
+            <view class="text-gray text-sm flex">
+              <text class="text-cut">{{groupMessage[index][0]?groupMessage[index][0].content:''}}</text>
+            </view>
+          </view>
+          <view class="action" wx:if='{{groupMessage[0]}}'>
+            <view class="text-grey text-xs">{{groupTime[index]}}</view>
+            <view class="cu-tag round bg-red sm" hidden = '{{groupMessage[index][0].state == 1}}'>{{groupUnreadCount[index]}}</view>
+          </view>
+        </view>
+        <view class="cu-item" wx:key wx:for='{{privateMessage[index]}}' wx:for-index="key"  wx:for-item="value" data-course-id='{{course[index].course_id}}' data-id='{{key}}' bindtap='enterChat'>
+          <view class="cu-avatar round lg" style="background-image:url({{isTeacher==1?value[0].avatarUrl:'https://ossweb-img.qq.com/images/lol/img/champion/Taric.png'}});">
+            <!-- <view class="cu-tag badge"></view> -->
+          </view>
+          <view class="content">
+            <view class="{{isTeacher==0?'text-orange':''}}">
+              <text class="text-cut">{{isTeacher==1?value[0].name:'老师'}}</text>
+              <!-- <view class="cu-tag round bg-orange sm">战士</view> -->
+            </view>
+            <view class="text-gray text-sm flex">
+              <text class="text-cut">{{value[0]?value[0].content:''}}</text>
+            </view>
+          </view>
+          <view class="action" wx:if='{{value[0]}}'>
+            <view class="text-grey text-xs">{{privateTime[index][key]}}</view>
+            <view hidden = '{{privateMessage[index][0].state == 1}}' class="cu-tag round bg-red sm">{{privateUnreadCount[index][key]}}</view>
+          </view>
+        </view>
+      </view>
+
+    </view>
+  </scroll-view>
+</view>

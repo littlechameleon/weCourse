@@ -62,6 +62,12 @@
         <text class="text-grey">课堂提问</text>
       </view>
     </view>
+    <view class="cu-item arrow"  bindtap='bindtapFeedback'>
+      <view class="content">
+        <text class="cuIcon-circlefill text-mauve"></text>
+        <text class="text-grey">交流反馈</text>
+      </view>
+    </view>
   </view>
 
 </view>

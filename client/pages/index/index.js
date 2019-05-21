@@ -18,6 +18,12 @@ Page({
       this.bindGetUserInfo()
     },
 
+    bindtapAllFeedback: function(){
+      wx.navigateTo({
+        url: '../feedback/feedback?isTeacher=' + this.data.type,
+      })
+    },
+
     switchChange: function(e){
       if(e.detail.value){
         this.setData({

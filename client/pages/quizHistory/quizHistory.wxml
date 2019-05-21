@@ -1,0 +1,25 @@
+<!--pages/quizHistory/quizHistory.wxml-->
+<view class='page'>
+  <cu-custom bgImage="https://image.weilanwl.com/color2.0/plugin/sylb2244.jpg" isCustom="{{true}}">
+    <view slot="backText"></view>
+    <view slot="content">提问历史</view>
+  </cu-custom>
+
+  <view class="cu-timeline" wx:key wx:for='{{quizList}}' wx:for-index="key"  wx:for-item="value">
+    <view class="cu-time">{{key}}</view>
+    <view class="cu-item {{item.score==5?'text-green':''}} {{item.score==4?'text-blue':''}} {{item.score==3?'text-cyan':''}} {{item.score==2?'text-yellow':''}} {{item.score==1?'text-red':''}} cuIcon-questionfill" wx:for='{{value}}'  wx:for-index="index" wx:key wx:for-item="item">
+      <view class="content {{item.score==5?'bg-green':''}} {{item.score==4?'bg-blue':''}} {{item.score==3?'bg-cyan':''}} {{item.score==2?'bg-yellow':''}} {{item.score==1?'bg-red':''}} shadow-blur light">
+        <view class="cu-capsule radius">
+          <view class="cu-tag bg-cyan">{{isTeacher==1?item.name:'时间'}}</view>
+          <view class="cu-tag line-cyan">{{isTeacher==1?item.register_id:item.detailTime}}</view>
+        </view>
+        <view class='flex margin-tb-xs margin-lr-xl'>
+          <text wx:for='{{item.score}}' wx:key class="flex-sub cuIcon-favorfill"></text>    
+          <text wx:for='{{5-item.score}}' wx:key class="flex-sub cuIcon-favor"></text>    
+        </view>
+      </view>
+    </view>
+  </view>
+
+
+</view>

@@ -24,6 +24,24 @@ Page({
     imgSrc: null,
   },
 
+  bindtapFeedback: function(){
+    wx.navigateTo({
+      url: '../feedback/feedback?courseId=' + this.data.courseId + '&isTeacher=' + this.data.isTeacher,
+    })
+  },
+
+  bindtapQuiz: function(){
+    if(this.data.isTeacher==1){
+      wx.navigateTo({
+        url: '../quiz/quiz?courseId=' + this.data.courseId + '&isTeacher=' + this.data.isTeacher,
+      })
+    }else{
+      wx.navigateTo({
+        url: '../quizHistory/quizHistory?courseId=' + this.data.courseId + '&isTeacher=' + this.data.isTeacher,
+      })
+    }
+  },
+
   bindtaptest: function(){
     if(this.data.chapter==-1){
       util.showModel('操作失败','请先选择章节');
@@ -53,7 +71,7 @@ Page({
                 signIn: res.data.data.signIn
               })
               if (this.data.signIn && this.data.signIn.state == 2) {
-                wx.redirectTo({
+                wx.navigateTo({
                   url: '../signInResult/signInResult?chapterId=' + chapter.chapter_id + '&sequence=' + chapter.sequence + '&title=' + chapter.title + '&isTeacher=' + isTeacher,
                 })
               } else if (!this.data.signIn && isTeacher == 0){
