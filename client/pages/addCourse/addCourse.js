@@ -18,7 +18,8 @@ Page({
       url: config.service.requestUrl + 'addCourse',
       data: {
         courseInfo: this.data.courseInfo,
-        openId: this.data.userInfo.openId
+        openId: this.data.userInfo.openId,
+        avatarUrl: this.data.userInfo.avatarUrl,
       },
       method: 'POST',
       header: {

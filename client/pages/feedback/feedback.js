@@ -30,7 +30,7 @@ Page({
     privateTime: null,
     groupMessage: null,
     privateMessage: null,
-
+    selfState: null,
   },
 
   tabSelect(e) {
@@ -74,13 +74,13 @@ Page({
 
   enterChat: function(e){
     wx.navigateTo({
-      url: '../chat/chat?courseId=' + e.currentTarget.dataset.courseId + '&isTeacher=' + this.data.isTeacher + '&target=' + e.currentTarget.dataset.id,
+      url: '../chat/chat?courseId=' + e.currentTarget.dataset.courseId + '&isTeacher=' + this.data.isTeacher + '&targetId=' + e.currentTarget.dataset.id,
     })
   },
 
   enterGroupChat: function (e) {
     wx.navigateTo({
-      url: '../groupChat/groupChat?courseId=' + e.currentTarget.dataset.courseId + '&isTeacher=' + this.data.isTeacher,
+      url: '../chat/chat?courseId=' + e.currentTarget.dataset.courseId + '&isTeacher=' + this.data.isTeacher,
     })
   },
 
@@ -98,6 +98,7 @@ Page({
             course: res.data.data.course,
             groupMessage: [res.data.data.groupMessage],
             privateMessage: [res.data.data.privateMessage],
+            selfState: res.data.data.selfState
           })
           this.sortMessage()
         }
@@ -126,6 +127,7 @@ Page({
             course: res.data.data.course,
             groupMessage: res.data.data.groupMessage,
             privateMessage: res.data.data.privateMessage,
+            selfState: res.data.data.selfState
           })
           this.sortMessage()
         }
@@ -147,9 +149,9 @@ Page({
     let groupUnreadCount = [], privateUnreadCount = []
     let groupTime = [], privateTime = []
     for(let index = 0;index<groupMessage.length;index++){
-      let count = 0
+      let count = 0, state = this.data.selfState[index]
       groupMessage[index].forEach( (item,index) => {
-        if(item.state == 0){
+        if (item.id > state && item.student != this.data.userInfo.openId) {
           count++
         }
       })
@@ -162,8 +164,14 @@ Page({
       for(let idx in privateMessage[index]){
         let count = 0
         privateMessage[index][idx].forEach((it) => {
-          if (it.state == 0) {
-            count++
+          if (this.data.isTeacher == 0) {
+            if (it.state == 0 && it.direction == 1) {
+              count++
+            }
+          } else {
+            if (it.state == 0 && it.direction == 0) {
+              count++
+            }
           }
         })
         counts[idx] = count
@@ -179,7 +187,7 @@ Page({
       groupUnreadCount: groupUnreadCount,
       privateUnreadCount: privateUnreadCount,
     })
-    let list = [{}];
+    let list = [];
     for (let i = 0; i < this.data.course.length; i++) {
       list[i] = {};
       list[i].name = this.data.course[i].title;
@@ -229,6 +237,11 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    if (this.data.courseId) {
+      this.getFeedback()
+    } else {
+      this.getAllFeedback()
+    }
     let _this = this
     this.data.setInter = setInterval(function () {
       if (_this.data.courseId) {

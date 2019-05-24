@@ -12,7 +12,8 @@ module.exports = async ctx => {
           course_id: courseId,
           name: studentItem[0],
           register_id: studentItem[1],
-          nickname: studentItem[2]
+          nickname: studentItem[2],
+          groupState: 0,
         }
       await mysql("student").insert(student)
     }

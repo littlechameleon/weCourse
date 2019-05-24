@@ -4,6 +4,9 @@ var config = require('./config')
 
 App({
     onLaunch: function () {
+      // wx.showShareMenu({
+      //   withShareTicket: true
+      // })
       qcloud.setLoginUrl(config.service.loginUrl)
       wx.getSystemInfo({
         success: e => {

@@ -36,11 +36,11 @@
           </view>
           <view class="action" wx:if='{{groupMessage[0]}}'>
             <view class="text-grey text-xs">{{groupTime[index]}}</view>
-            <view class="cu-tag round bg-red sm" hidden = '{{groupMessage[index][0].state == 1}}'>{{groupUnreadCount[index]}}</view>
+            <view class="cu-tag round bg-red sm" wx:if = '{{groupUnreadCount[index]>0}}'>{{groupUnreadCount[index]}}</view>
           </view>
         </view>
         <view class="cu-item" wx:key wx:for='{{privateMessage[index]}}' wx:for-index="key"  wx:for-item="value" data-course-id='{{course[index].course_id}}' data-id='{{key}}' bindtap='enterChat'>
-          <view class="cu-avatar round lg" style="background-image:url({{isTeacher==1?value[0].avatarUrl:'https://ossweb-img.qq.com/images/lol/img/champion/Taric.png'}});">
+          <view class="cu-avatar round lg" style="background-image:url({{isTeacher==1?value[0].avatarUrl:course[index].teacherAvatarUrl}});">
             <!-- <view class="cu-tag badge"></view> -->
           </view>
           <view class="content">
@@ -54,7 +54,7 @@
           </view>
           <view class="action" wx:if='{{value[0]}}'>
             <view class="text-grey text-xs">{{privateTime[index][key]}}</view>
-            <view hidden = '{{privateMessage[index][0].state == 1}}' class="cu-tag round bg-red sm">{{privateUnreadCount[index][key]}}</view>
+            <view wx:if = '{{privateUnreadCount[index][key] > 0}}' class="cu-tag round bg-red sm">{{privateUnreadCount[index][key]}}</view>
           </view>
         </view>
       </view>

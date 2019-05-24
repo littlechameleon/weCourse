@@ -3,6 +3,7 @@ const { mysql } = require('../qcloud')
 module.exports = async ctx => {
   let courseInfo = ctx.request.body.courseInfo.split('#')
   let openId = ctx.request.body.openId
+  let avatarUrl = ctx.request.body.avatarUrl
   let course = {
     title: courseInfo[1],
     intro: courseInfo[2],
@@ -11,7 +12,9 @@ module.exports = async ctx => {
     place: courseInfo[5],
     teacher_id: openId,
     create_time: new Date(),
-    state: 0
+    teacherAvatarUrl: avatarUrl,
+    state: 0,
+    groupState: 0,
   }
 
   let result =  await mysql("course").insert(course)

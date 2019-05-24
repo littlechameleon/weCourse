@@ -78,7 +78,15 @@ router.get('/addQuiz', controllers.addQuiz)
 
 router.get('/getMessage', controllers.getMessage)
 
-router.get('/sendMessage', controllers.sendMessage)
+router.get('/getGroupMessage', controllers.getGroupMessage)
+
+router.post('/sendMessage', controllers.sendMessage)
+
+router.post('/sendGroupMessage', controllers.sendGroupMessage)
+
+router.get('/setMessageRead', controllers.setMessageRead)
+
+router.get('/setGroupMessageRead', controllers.setGroupMessageRead)
 
 router.get('/getFeedback', controllers.getFeedback)
 

@@ -14,6 +14,14 @@ Page({
         type: 0,
     },
 
+    onShareAppMessage() {
+      return {
+        title: 'weCourse-师生课堂交互系统',
+        // imageUrl: '/images/share.jpg',
+        path: '/pages/index/index'
+      }
+    },
+
     onLoad: function(){
       this.bindGetUserInfo()
     },
@@ -93,7 +101,10 @@ Page({
     bindGetUserInfo: function () {
         if (this.data.logged) return
 
-        util.showBusy('正在登录')
+        wx.showToast({
+          title: '正在登陆',
+          icon: 'loading',
+        })
 
         const session = qcloud.Session.get()
 

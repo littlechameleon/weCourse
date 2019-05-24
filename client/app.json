@@ -15,8 +15,7 @@
     "pages/quiz/quiz",
     "pages/quizHistory/quizHistory",
     "pages/feedback/feedback",
-    "pages/chat/chat",
-    "pages/groupChat/groupChat"
+    "pages/chat/chat"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",
