@@ -1,10 +1,58 @@
 <!--pages/addCourse/addCourse.wxml-->
-<view class='container'>
-  <view class='course-info'>
-    <view class='info-rule'>
-      <text>请输入课程题目、简要描述、目标学生、上课时间、上课地点五项内容，每项用#分隔</text>
+<view class='page'>
+  <cu-custom bgImage="https://image.weilanwl.com/color2.0/plugin/sylb2244.jpg" isBack="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">添加课程</view>
+  </cu-custom>
+
+  <view class="bg-white shadow padding-tb-xs">
+    <view class="cu-steps">
+      <view class="cu-item {{index>step?'':'text-cyan'}}" wx:for="{{stepList}}" wx:key>
+        <text class="num" data-index="{{index + 1}}"></text> {{item.name}}
+      </view>
     </view>
-    <textarea bindinput='bindinput' auto-height='true' maxlength='500' class='info-textarea' placeholder-style='font-size: 30rpx' placeholder='请输入内容'></textarea>
   </view>
-  <button class='weui-btn create-btn' bindtap='bindtapcreate'>创建</button>
+
+  <view wx:if='{{step == 0}}'>
+    <view class='margin'>
+      <view class='text-sm bg-green light radius padding-sm shadow'>
+        <text class=''>Tips: 请依次输入课程题目、简要描述、目标学生、上课时间、上课地点五项内容，每项以 # 号开头</text>
+      </view>
+      <view class='margin-top-sm'>
+        <textarea bindinput='bindinputCourse' auto-height='true' maxlength='500' class='padding text-area radius bg-white shadow' placeholder-style='font-size: 30rpx' placeholder='请输入课程详情'></textarea>    
+      </view>
+    </view>
+    <view class='margin-tb-sm text-center'>
+      <button class='cu-btn bg-cyan light shadow round' bindtap='bindtapAddCourse'>下一步</button>
+    </view>
+  </view>
+
+  <view wx:if='{{step == 1}}'>
+    <view class='margin'>
+      <view class='text-sm bg-green light radius padding-sm shadow'>
+        <text class=''>Tips: 请添加课程的全部章节，每行填写一章的标题</text>
+      </view>
+      <view class='margin-top-sm'>  
+        <textarea bindinput='bindinputChapter' auto-height='true' maxlength='500' class='padding text-area radius bg-white shadow' placeholder-style='font-size: 30rpx' placeholder='请输入章节信息'></textarea>    
+      </view>
+    </view>
+    <view class='margin-tb-sm text-center'>
+      <button class='cu-btn bg-cyan light shadow round' bindtap='bindtapAddChapter'>下一步</button>
+    </view>
+  </view>
+
+  <view wx:if='{{step == 2}}'>
+    <view class='margin'>
+      <view class='text-sm bg-green light radius padding-sm shadow'>
+        <text class=''>Tips: 每行输入学生姓名、学号、微信昵称，每项用tab键分隔，推荐从Excel中复制粘贴</text>
+      </view>
+      <view class='margin-top-sm'>
+        <textarea bindinput='bindinputStudent' auto-height='true' maxlength='500' class='padding text-area radius bg-white shadow' placeholder-style='font-size: 30rpx' placeholder='请输入学生列表'></textarea>    
+      </view>
+    </view>
+    <view class='margin-tb-sm text-center'>
+      <button class='cu-btn bg-cyan light shadow round' bindtap='bindtapAddStudent'>下一步</button>
+    </view>
+  </view>
+
 </view>

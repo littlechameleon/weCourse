@@ -10,7 +10,7 @@ function setOption(chart, data) {
     textStyle:{
       fontSize: 16
     },
-    color: ['#37a2da', '#32c5e9', '#67e0e3'],
+    color: ['#1cbbb4', '#0081ff', '#f37b1d'],
     tooltip: {
       trigger: 'axis',
       axisPointer: {            // 坐标轴指示器，坐标轴触发有效
@@ -86,7 +86,7 @@ function setOptionBar(chartBar, data) {
     textStyle: {
       fontSize: 16
     },
-    color: ['#ff6600', '#32c5e9', '#67e0e3'],
+    color: ['#1cbbb4', '#0081ff', '#f37b1d'],
     tooltip: {
       trigger: 'axis',
       show: false,

@@ -31,7 +31,7 @@ Page({
 
   changeDuration: function (e) {
     this.setData({
-      duration: this.data.durations[e.detail.value]
+      duration: e.detail.value
     })
   },
 
@@ -105,7 +105,7 @@ Page({
       let studentLocation = wscoordinate.transformFromGCJToWGS(this.data.location.latitude, this.data.location.longitude)
       let distance = wscoordinate.distanceByLongNLat(teacherLocation.longitude, teacherLocation.latitude, studentLocation.longitude, studentLocation.latitude)
       console.log('距离为： ' + distance)
-      if(distance < 200){
+      if(distance < 400){
         wx.request({
           url: config.service.requestUrl + 'checkIn',
           data:{
@@ -149,7 +149,7 @@ Page({
       wx.request({
         url: config.service.requestUrl + 'startSignIn',
         data: {
-          duration: this.data.duration,
+          duration: this.data.durations[this.data.duration],
           chapterId: this.data.chapterId,
           longitude: this.data.location.longitude,
           latitude: this.data.location.latitude,

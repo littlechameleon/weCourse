@@ -36,16 +36,7 @@ Page({
     }
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-    this.setData({
-      chapterId: options.chapterId,
-      sequence: parseInt(options.sequence),
-      title: options.title,
-      isTeacher: options.isTeacher,
-    })
+  getAllTest: function(){
     wx.request({
       url: config.service.requestUrl + 'getAllTest',
       data: {
@@ -70,6 +61,19 @@ Page({
   },
 
   /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    this.setData({
+      chapterId: options.chapterId,
+      sequence: parseInt(options.sequence),
+      title: options.title,
+      isTeacher: options.isTeacher,
+    })
+    this.getAllTest()
+  },
+
+  /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
@@ -80,7 +84,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.getAllTest()
   },
 
   /**

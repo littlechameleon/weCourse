@@ -1,11 +1,21 @@
 <!--pages/testDetail/testDetail.wxml-->
-<view class='container'>
-  <view class='teacher-pane' wx:if='{{isTeacher == 1}}'>
-    <view class='title'>
-      <text class='chapter-title'>第{{sequence + 1}}节  {{title}} | </text>
-      <text class='chapter-title' wx:if='{{test.state === 0}}'>未开启测试</text>
-      <text class='chapter-title' wx:if='{{test.state === 1}}'>已开启测试</text>
+<view class='page'>
+  <cu-custom bgImage="https://image.weilanwl.com/color2.0/plugin/sylb2244.jpg" isCustom="{{true}}">
+    <view slot="backText"></view>
+    <view slot="content">测验题目</view>
+  </cu-custom>
+
+  <view class="cu-bar margin-top bg-white">
+    <view class="action">
+      <text class="cuIcon-titles text-green"></text>第{{sequence + 1}}节 {{title}}
     </view>
+    <view class="action">
+      <text class="text-df margin-right-sm" wx:if='{{isTeacher == 0}}'>{{testState}}</text>
+      <text class="text-df margin-right-sm" wx:if='{{isTeacher == 1}}'>{{test.state == 0?'未开启测验':'已开启测验'}}</text>
+    </view>
+  </view>
+
+  <view class='teacher-pane' wx:if='{{isTeacher == 1}}'>
     <view class='start-test'>
       <picker value='{{duration}}' bindchange='changeDuration' range='{{durations}}' disabled='{{enablePicker}}'>
         <view class='picker'>
@@ -39,10 +49,6 @@
   </view>
 
   <view class='student-pane' wx:if='{{isTeacher == 0}}'>
-    <view class='title'>
-      <text class='chapter-title'>第{{sequence + 1}}节  {{title}}</text>
-      <text class='chapter-title last-count'>{{testState}}</text>
-    </view>
     <form class='test' bindsubmit='formSubmit'>
       <view wx:for='{{question}}' wx:for-item='quest' class='radio-item' wx:key='index'>
         <view class='radio-main'>{{index + 1}}. {{quest.main}}

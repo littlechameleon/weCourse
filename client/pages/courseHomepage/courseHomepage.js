@@ -46,7 +46,7 @@ Page({
     if(this.data.chapter==-1){
       util.showModel('操作失败','请先选择章节');
     }else{
-      let isTeacher = this.data.userInfo.openId === this.data.course.teacher_id ? 1 : 0
+      let isTeacher = this.data.isTeacher
       let chapter =this.data.chapterList[this.data.chapter]
       wx.navigateTo({
         url: '../test/test?chapterId=' + chapter.chapter_id + '&sequence=' + chapter.sequence + '&title=' + chapter.title + '&isTeacher=' + isTeacher,
@@ -58,7 +58,7 @@ Page({
     if (this.data.chapter == -1) {
       util.showModel('操作失败', '请先选择章节');
     } else {
-      let isTeacher = this.data.userInfo.openId === this.data.course.teacher_id ? 1 : 0
+      let isTeacher = this.data.isTeacher
       let chapter = this.data.chapterList[this.data.chapter]
         wx.request({
           url: config.service.requestUrl + 'getSignIn',

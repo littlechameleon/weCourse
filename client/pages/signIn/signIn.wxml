@@ -1,25 +1,48 @@
 <!--pages/signIn/signIn.wxml-->
-<view class='container'>
-    <view class='title'>
-      <text class='chapter-title'>第{{sequence + 1}}节  {{title}}</text>
+<view class='page'>
+  <cu-custom bgImage="https://image.weilanwl.com/color2.0/plugin/sylb2244.jpg" isCustom="{{true}}">
+    <view slot="backText"></view>
+    <view slot="content">课堂签到</view>
+  </cu-custom>
+
+  <view class="cu-bar margin-top bg-white">
+    <view class="action">
+      <text class="cuIcon-titles text-green"></text>第{{sequence + 1}}节
     </view>
-    <view class='info-rule'>
-      <text>提示：请打开手机位置，并确认定位是否准确！</text>
+    <view class="action">
+      <text class="text-df margin-right-sm">{{title}}</text>
     </view>
-    <map wx:if='{{location}}' id="myMap" class='location-map' longitude="{{location.longitude}}" latitude="{{location.latitude}}" 
-    subkey='NTSBZ-REF6O-HMLW5-SQUW4-7HHS2-W2BNC' scale='17' show-location>
-    </map>
-    <view class='start-test' wx:if='{{isTeacher == 1}}'>
-      <picker value='{{duration}}' bindchange='changeDuration' range='{{durations}}' disabled='{{enablePicker}}'>
-        <view class='picker'>
-          <text class='set-time'>选择定时： </text>
-          <text wx-if="{{duration === -1}}" class='time-title'>未选择</text>
-          <text wx-if="{{duration !== -1}}" class='time-title'>{{duration}}分钟</text>
+  </view>
+
+  <view class='margin'>
+    <view class='text-sm bg-green light radius padding-sm shadow'>
+      <text class=''>Tips: 请打开手机位置，并确认定位是否准确！</text>
+    </view>
+    <view class='margin-top-sm'>
+      <map wx:if='{{location}}' id="myMap" class='location-map' longitude="{{location.longitude}}" latitude="{{location.latitude}}" 
+      subkey='NTSBZ-REF6O-HMLW5-SQUW4-7HHS2-W2BNC' scale='17' show-location>
+      </map>
+    </view>
+  </view>
+
+  <view wx:if='{{isTeacher == 1}}'>
+    <view class='margin-tb cu-form-group select-chapter shadow shadow-lg radius'>
+      <view class="title">
+        <text class="cuIcon-title text-orange "></text> 选择定时
+      </view>
+      <picker bindchange="changeDuration" value="{{duration}}" range="{{durations}}" disabled='{{enablePicker}}'>
+        <view class="picker">
+          {{duration != -1?durations[duration] + '分钟 ':'未选择'}}
         </view>
       </picker>
-      <button disabled='{{enablePicker}}' class='start-btn' bindtap='startSignIn'>{{signInState}}</button>
+	  </view>
+    <view class='margin-tb-sm text-center'>
+      <button disabled='{{enablePicker}}' class='cu-btn bg-cyan light shadow round' bindtap='startSignIn'>{{signInState}}</button>
     </view>
-    <view class='check-in' wx:if='{{isTeacher == 0}}'>
-      <button disabled='{{enableCheckIn}}' class='check-btn' bindtap='startCheckIn'>{{signInState}}</button>
+  </view>
+
+
+    <view class='margin-tb-sm text-center' wx:if='{{isTeacher == 0}}'>
+      <button disabled='{{enableCheckIn}}' class='cu-btn bg-cyan light shadow round' bindtap='startCheckIn'>{{signInState}}</button>
     </view>
 </view>

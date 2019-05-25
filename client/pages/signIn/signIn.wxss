@@ -1,10 +1,4 @@
 /* pages/signIn/signIn.wxss */
-.title{
-  margin: 20rpx 0;
-  width: 100%;
-  border-bottom: 1rpx #bbb solid;
-}
-
 .chapter-title{
   font-size: 30rpx;
   padding: 10rpx 0rpx 10rpx 30rpx;
@@ -36,13 +30,6 @@
   float: right;
 }
 
-.picker{
-  background-color: #ddd;
-  margin: 10rpx 0;
-  padding: 20rpx;
-  box-shadow: 0 0 5rpx #B09999;
-}
-
 .start-test{
   width: 100%;
 }
@@ -59,10 +46,13 @@
   color:#E6A23C;
 }
 
+.cu-form-group .title {
+  min-width: calc(4em + 30rpx);
+}
+
 .location-map{
-  width:720rpx;
+  width:100%;
   height:400rpx;
-  margin: 0 15rpx 10rpx;
   border:1rpx solid #909399;
   box-shadow: 0 0 10rpx #B09999;
 }

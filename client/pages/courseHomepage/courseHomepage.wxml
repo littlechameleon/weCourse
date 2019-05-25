@@ -32,7 +32,7 @@
     </view>
   </view>
 
-  <view class="cu-form-group select-chapter shadow shadow-lg radius">
+  <view class="cu-form-group margin-lr shadow shadow-lg radius">
 		<view class="title">
       <text class="cuIcon-title text-orange "></text> 选择章节
     </view>

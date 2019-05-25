@@ -1,20 +1,29 @@
 <!--pages/testResult/testResult.wxml-->
-<view class='container'>
-  <view class='title'>
-    <text class='chapter-title'>第{{sequence + 1}}节  {{title}}</text>
+<view class='page'>
+  <cu-custom bgImage="https://image.weilanwl.com/color2.0/plugin/sylb2244.jpg" isCustom="{{true}}">
+    <view slot="backText"></view>
+    <view slot="content">测验结果</view>
+  </cu-custom>
+
+  <view class="cu-bar margin-top bg-white">
+    <view class="action">
+      <text class="cuIcon-titles text-green"></text>第{{sequence + 1}}节
+    </view>
+    <view class="action">
+      <text class="text-df margin-right-sm">{{title}}</text>
+    </view>
   </view>
 
-  <view class='score-part'>
-    <view class="table">
-      <view class="tr bg-w">
-      <view class="th ">总人数</view>
+    <view class="table margin-lr margin-tb-sm">
+      <view class="tr bg-cyan">
+        <view class="th">总人数</view>
         <view class="th">最高分</view>
         <view class="th">最低分</view>
         <view class="th">平均分</view>
         <view class="th" wx:if='{{isTeacher == 0}}'>得分</view>
         <view class="th" wx:if='{{isTeacher == 0}}'>排名</view>
       </view>
-      <view class="tr bg-g">
+      <view class="tr bg-cyan light">
         <view class="td">{{test.number}}</view>
         <view class="td">{{test.highest}}</view>
         <view class="td">{{test.lowest}}</view>
@@ -23,18 +32,25 @@
         <view class="td" wx:if='{{isTeacher == 0}}'>{{scores[0].rank}}</view>
       </view>
     </view>
-  </view>
 
   <view class='question-part'>
-    <form class='test' bindsubmit='formSubmit'>
-      <view wx:for='{{question}}' wx:for-item='quest' class='radio-item' wx:key='index'>
+    <view class="cu-bar margin-top bg-white">
+      <view class="action">
+        <text class="cuIcon-title text-green"></text>作答详情
+      </view>
+      <view class="action">
+        <text class="text-df margin-right-sm"></text>
+      </view>
+    </view>
+    <form class='test'>
+      <view wx:for='{{question}}' wx:for-item='quest' class='radio-item margin-tb margin-lr-sm radius bg-white light shadow padding-tb-xs' wx:key='index'>
 
-        <view class='radio-main' wx:if='{{answer[index].score == 10 || isTeacher ==1}}'>{{index + 1}}. {{quest.main}}
+        <view class='radio-main text-cyan' wx:if='{{answer[index].score == 10 || isTeacher ==1}}'>{{index + 1}}. {{quest.main}}
           <text wx:if='{{quest.type === 1}}'>(多选)</text>
           <text wx:if='{{isTeacher == 0 }}'>({{answer[index].answer}})</text>
         </view>
 
-        <view class='radio-main wrong-answer' wx:if='{{answer[index].score != 10 && isTeacher  == 0}}'>{{index + 1}}. {{quest.main}}
+        <view class='radio-main text-orange' wx:if='{{answer[index].score != 10 && isTeacher  == 0}}'>{{index + 1}}. {{quest.main}}
           <text wx:if='{{quest.type === 1}}'>(多选)</text>
           <text wx:if='{{isTeacher == 0 }}'>({{answer[index].answer}})</text>
         </view>
@@ -42,7 +58,7 @@
         <radio-group class='radio-group' name='{{quest.id}}' wx:if='{{quest.type === 0}}'>
           <label wx:for='{{radioList[index]}}' class='radio-part' wx:key='index' wx:for-index='idx'>
             <radio value='{{idx}}' disabled='true' checked='{{result[index][idx] == 1}}'/>
-            <text class='radio-choose right-answer' wx:if='{{result[index][idx] == 1}}'>{{item}}</text>
+            <text class='radio-choose text-green' wx:if='{{result[index][idx] == 1}}'>{{item}}</text>
             <text class='radio-choose' wx:if='{{result[index][idx] != 1}}'>{{item}}</text>
           </label>
         </radio-group>
@@ -50,7 +66,7 @@
         <checkbox-group class='radio-group' name='{{quest.id}}' wx:if='{{quest.type === 1}}'>
           <label wx:for='{{radioList[index]}}' class='radio-part' wx:key='index' wx:for-index='idx'>
             <checkbox value='{{idx}}' disabled='true' checked='{{result[index][idx] == 1}}'/>
-            <text class='radio-choose right-answer' wx:if='{{result[index][idx] == 1}}'>{{item}}</text>
+            <text class='radio-choose text-green' wx:if='{{result[index][idx] == 1}}'>{{item}}</text>
             <text class='radio-choose' wx:if='{{result[index][idx] != 1}}'>{{item}}</text>
           </label>
         </checkbox-group>
@@ -64,8 +80,16 @@
   </view>
 
   <view class='score-list-part' wx:if='{{isTeacher != 0}}'>
-    <text class='score-list-title'>学生成绩排行</text>
-    <view class='score-list' wx:for='{{scores}}' wx:key='index' wx:if='{{index == 0}}' style='height: {{(scores.length * 80) + "rpx"}};'>
+    <view class="cu-bar margin-top bg-white">
+      <view class="action">
+        <text class="cuIcon-title text-green"></text>成绩排行
+      </view>
+      <view class="action">
+        <text class="text-df margin-right-sm"></text>
+      </view>
+    </view>
+
+    <view class='margin-lr padding-top-sm margin-tb-sm bg-cyan light radius shadow' wx:for='{{scores}}' wx:key='index' wx:if='{{index == 0}}' style='height: {{(scores.length * 80) + "rpx"}};'>
       <ec-canvas tuData='{{scores}}' id='mychart-dom-bar' canvas-id='mychart-bar' ec='{{ecBar}}'></ec-canvas>
     </view>
   </view>

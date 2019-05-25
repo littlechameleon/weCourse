@@ -1,7 +1,7 @@
 <!--pages/chat/chat.wxml-->
 <view class='page'>
-  <cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
-    <view slot="backText">返回</view>
+  <cu-custom bgColor="bg-gradual-pink" isCustom="{{true}}">
+    <view slot="backText"></view>
     <view slot="content" wx:if='{{!targetId}}'>{{course.title}} 课程群</view>
     <view slot="content" wx:if='{{targetId}}'>{{isTeacher==1?messageList[0].name:'老师'}}</view>
   </cu-custom>

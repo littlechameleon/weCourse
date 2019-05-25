@@ -26,19 +26,14 @@ Page({
       },
       success: res => {
         if (res.data.code == 0) {
-          util.showSuccess('创建成功！')
-
-          wx.navigateTo({
-            // url: '../addChapter/addChapter?courseId=' + res.data.data.TestId,
-            url: '../test/test?chapterId=' + this.data.chapterId,
-          })
+          wx.navigateBack()
         } else {
-          util.showModel('创建失败！', '创建失败，请检查格式是否正确');
+          util.showModel('新增测验失败！', '请检查格式是否正确');
           console.log('request fail');
         }
       },
       fail(error) {
-        util.showModel('创建失败', error);
+        util.showModel('新增测验失败', error);
         console.log('request fail', error);
       }
     })

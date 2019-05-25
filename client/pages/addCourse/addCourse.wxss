@@ -1,4 +1,16 @@
 /* pages/addCourse/addCourse.wxss */
+
+.steps-bottom.cu-steps .cu-item .num::before {
+  content: "\e668";
+  font-family: 'iconfont';
+}
+
+.text-area {
+  width: 100%;
+  min-height: 800rpx;
+}
+
+
 .create-btn{
   width: 100%;
 }

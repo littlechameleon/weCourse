@@ -6,9 +6,9 @@
 } */
 
 .bar-box{
-  width: 250rpx;
+  width: 240rpx;
   height: 220rpx;
-  margin: 0 20rpx;
+  margin: 0 0 0 20rpx;
   display: inline-block;
 }
 
@@ -23,17 +23,8 @@ ec-canvas{
   height: 100%;
 }
 
-.right-answer{
-  color: blue;
-  font-weight: 500;
-}
-
-.wrong-answer{
-  color: red
-}
-
 .radio-part{
-  margin: 0 10rpx 10rpx 50rpx;
+  margin: 0 10rpx 10rpx 30rpx;
   width: 300rpx;
 }
 
@@ -41,21 +32,6 @@ ec-canvas{
   font-size: 30rpx;
   width: 720rpx;
   margin: 10rpx 0;
-}
-
-.score-list{
-  width: 700rpx;
-  height: 50rpx;
-}
-
-.score-list-part{
-  border-top: 1rpx #bbb dashed;
-  margin: 10rpx 0;
-}
-
-.score-list-title{
-  font-size: 32rpx;
-  font-weight: 500;
 }
 
 .table {
@@ -73,17 +49,10 @@ ec-canvas{
     justify-content: center;
     text-align: center;
 }
-.bg-w{
-  background: snow;
-}
-.bg-g{
-  background: #E6F3F9;
-}
+
 .th {
   width: 40%;
   justify-content: center;
-  background: #3366FF;
-  color: #fff;
   display: flex;
   height: 80rpx;
   align-items: center;
@@ -139,9 +108,8 @@ ec-canvas{
 }
 
 .radio-main{
-  border-top: 1rpx #bbb dashed;
   font-size: 32rpx;
-  margin: 5rpx 30rpx;
+  margin: 5rpx 10rpx;
 }
 
 .radio-choose{

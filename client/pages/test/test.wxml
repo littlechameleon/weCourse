@@ -1,17 +1,43 @@
 <!--pages/test/test.wxml-->
-<view class='container'>
-  <view class='title'>
-    <text class='chapter-title'>第{{sequence + 1}}节  {{title}}</text>
+<view class='page'>
+  <cu-custom bgImage="https://image.weilanwl.com/color2.0/plugin/sylb2244.jpg" isCustom="{{true}}">
+    <view slot="backText"></view>
+    <view slot="content">测验题目列表</view>
+  </cu-custom>
+
+  <view class="cu-bar margin-top bg-white">
+    <view class="action">
+      <text class="cuIcon-titles text-green"></text>第{{sequence + 1}}节
+    </view>
+    <view class="action">
+      <text class="text-df margin-right-sm">{{title}}</text>
+    </view>
   </view>
+
+  <view class='operations cu-list menu sm-border card-menu margin-top'>
+    <view wx:for="{{testList}}" wx:key='test_id' data-index='{{index}}' data-id='{{item.test_id}}' class="cu-item arrow" bindtap='enterTest' wx:if='{{item.state != 0 || isTeacher != 0}}'>
+      <view class="content">
+        <text class="cuIcon-circlefill text-cyan"></text>
+        <text class="text-grey">第{{index + 1}}套测验题</text>
+      </view>
+      <view class='action'>
+        <view class="cu-tag bg-red light round" wx:if='{{item.state == 1}}'>正在进行</view>
+        <view class="cu-tag bg-green light round" wx:if='{{item.state == 2}}'>已结束</view>
+      </view>
+    </view>
+    <view class='cu-item arrow' bindtap='addTest' wx:if='{{isTeacher == 1}}'>
+      <view class="content">
+        <text class="cuIcon-roundadd text-cyan"></text>
+        <text class="text-grey">新增测验</text>
+      </view>
+    </view>
+  </view>
+
   <view class='test-list'>
-    <view wx:for="{{testList}}" wx:key='test_id' data-index='{{index}}' data-id='{{item.test_id}}' class="test" bindtap='enterTest' wx:if='{{item.state != 0 || isTeacher != 0}}'>
-      <text class='test-title'>第{{index + 1}}套测验题</text>
-      <text class='test-title' wx:if='{{item.state == 1}}'>(正在进行)</text>
-      <text class='test-title' wx:if='{{item.state == 2}}'>(已结束)</text>
-    </view>
-    <view class='test new-test' bindtap='addTest' wx:if='{{isTeacher == 1}}'>
-      <image src='../../assets/image/addition.png' class='add-icon'></image>
-      <text class='test-title'>新增测验</text>
-    </view>
+
+
+    <!-- <view class='margin-tb-sm text-center' wx:if='{{isTeacher == 0}}'>
+      <button disabled='{{enableCheckIn}}' class='cu-btn bg-cyan light shadow round' bindtap='startCheckIn'>{{signInState}}</button>
+    </view> -->
   </view>
 </view>

@@ -1,4 +1,9 @@
 /* pages/addTest/addTest.wxss */
+.text-area {
+  width: 100%;
+  min-height: 800rpx;
+}
+
 .create-btn{
   width: 100%;
 }
