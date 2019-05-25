@@ -30,6 +30,12 @@ Page({
     })
   },
 
+  bindtapDataCollect: function () {
+    wx.navigateTo({
+      url: '../dataCollect/dataCollect?courseId=' + this.data.courseId + '&isTeacher=' + this.data.isTeacher,
+    })
+  },
+
   bindtapQuiz: function(){
     if(this.data.isTeacher==1){
       wx.navigateTo({

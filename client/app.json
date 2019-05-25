@@ -13,7 +13,8 @@
     "pages/quiz/quiz",
     "pages/quizHistory/quizHistory",
     "pages/feedback/feedback",
-    "pages/chat/chat"
+    "pages/chat/chat",
+    "pages/dataCollect/dataCollect"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",

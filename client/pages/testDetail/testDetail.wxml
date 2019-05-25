@@ -10,37 +10,54 @@
       <text class="cuIcon-titles text-green"></text>第{{sequence + 1}}节 {{title}}
     </view>
     <view class="action">
-      <text class="text-df margin-right-sm" wx:if='{{isTeacher == 0}}'>{{testState}}</text>
-      <text class="text-df margin-right-sm" wx:if='{{isTeacher == 1}}'>{{test.state == 0?'未开启测验':'已开启测验'}}</text>
+      <text class="cu-tag bg-orange light round" wx:if='{{isTeacher == 0}}'>{{testState}}</text>
+      <text class="cu-tag bg-cyan light round" wx:if='{{isTeacher == 1}}'>{{test.state == 0?'未开启测验':'已开启测验'}}</text>
     </view>
   </view>
 
   <view class='teacher-pane' wx:if='{{isTeacher == 1}}'>
-    <view class='start-test'>
-      <picker value='{{duration}}' bindchange='changeDuration' range='{{durations}}' disabled='{{enablePicker}}'>
-        <view class='picker'>
-          <text class='set-time'>选择定时： </text>
-          <text wx-if="{{duration === -1 && test.state === 0}}" class='time-title'>未选择</text>
-          <text wx-if="{{test.state !== 0 || duration !== -1}}" class='time-title'>{{duration}}分钟</text>
+
+    <view class=''>
+      <view class='margin cu-form-group select-chapter shadow bg-cyan radius'>
+        <view class="title">
+          <text class="cuIcon-title text-orange"></text> 选择定时
         </view>
-      </picker>
-      <button disabled='{{enablePicker}}' class='start-btn' bindtap='startTest'>{{testState}}</button>
+        <picker bindchange="changeDuration" value="{{duration}}" range="{{durations}}" disabled='{{enablePicker}}'>
+          <view class="picker">
+            {{(duration != -1 || test.state != 0)?durations[duration] + '分钟':'未选择'}}
+          </view>
+        </picker>
+      </view>
+
+      <view class='margin-tb-sm text-center'>
+        <button disabled='{{enablePicker}}' class='cu-btn bg-cyan light shadow round' bindtap='startTest'>{{testState}}</button>
+      </view>
     </view>
-    <form class='test' bindsubmit='formSubmit'>
-      <view wx:for='{{question}}' wx:for-item='quest' class='radio-item' wx:key='index'>
+
+    <view class="cu-bar margin-top bg-white">
+      <view class="action">
+        <text class="cuIcon-title text-green"></text>测验题目
+      </view>
+      <view class="action">
+        <text class="text-df margin-right-sm"></text>
+      </view>
+    </view>
+
+    <form class='test'>
+      <view wx:for='{{question}}' wx:for-item='quest' class='radio-item margin radius bg-white shadow padding-tb-sm' wx:key='index'>
         <view class='radio-main'>{{index + 1}}. {{quest.main}}
           <text wx:if='{{quest.type === 1}}'>(多选)</text>
         </view>
         <radio-group name='{{quest.id}}' wx:if='{{quest.type === 0}}'>
           <label wx:for='{{radioList[index]}}' class='radio-part' wx:key='index' wx:for-index='idx'>
-            <radio value='{{idx}}' disabled='true' checked='{{result[index][idx] == 1}}'/>
+            <radio class='{{result[index][idx] == 1?"text-green":""}}' value='{{idx}}' disabled='true' checked='{{result[index][idx] == 1}}'/>
             <text class='radio-choose'>{{item}}</text>
           </label>
         </radio-group>
         
         <checkbox-group name='{{quest.id}}' wx:if='{{quest.type === 1}}'>
           <label wx:for='{{radioList[index]}}' class='radio-part' wx:key='index' wx:for-index='idx'>
-            <checkbox value='{{idx}}' disabled='true' checked='{{result[index][idx] == 1}}'/>
+            <checkbox class='{{result[index][idx] == 1?"text-green":""}}' value='{{idx}}' disabled='true' checked='{{result[index][idx] == 1}}'/>
             <text class='radio-choose'>{{item}}</text>
           </label>
         </checkbox-group>
@@ -50,7 +67,7 @@
 
   <view class='student-pane' wx:if='{{isTeacher == 0}}'>
     <form class='test' bindsubmit='formSubmit'>
-      <view wx:for='{{question}}' wx:for-item='quest' class='radio-item' wx:key='index'>
+      <view wx:for='{{question}}' wx:for-item='quest' class='radio-item margin radius bg-white shadow padding-tb-sm' wx:key='index'>
         <view class='radio-main'>{{index + 1}}. {{quest.main}}
           <text wx:if='{{quest.type === 1}}'>(多选)</text>
         </view>
@@ -68,7 +85,10 @@
           </label>
         </checkbox-group>
       </view>
-      <button class='submit-button' form-type='submit' disabled='{{testState == "测试已结束"}}'>{{answerState}}</button>
+
+      <view class='margin-tb-sm text-center'>
+        <button disabled='{{testState == "测试已结束"}}' class='cu-btn bg-cyan light shadow round' form-type='submit'>{{answerState}}</button>
+      </view>
     </form>
 
     <button class=''></button>

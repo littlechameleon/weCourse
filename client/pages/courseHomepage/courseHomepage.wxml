@@ -32,7 +32,7 @@
     </view>
   </view>
 
-  <view class="cu-form-group margin-lr shadow shadow-lg radius">
+  <view class="cu-form-group bg-cyan margin-lr shadow shadow-lg radius">
 		<view class="title">
       <text class="cuIcon-title text-orange "></text> 选择章节
     </view>
@@ -42,6 +42,15 @@
 			</view>
 		</picker>
 	</view>
+
+      <view class="cu-bar margin-top bg-white">
+        <view class="action">
+          <text class="cuIcon-titles text-cyan"></text>课程操作
+        </view>
+        <view class="action">
+          <text class="text-df margin-right-sm"></text>
+        </view>
+      </view>
 
   <view class='operations cu-list menu sm-border card-menu margin-top'>
     <view class="cu-item arrow" bindtap='bindtaptest'>
@@ -66,6 +75,12 @@
       <view class="content">
         <text class="cuIcon-circlefill text-mauve"></text>
         <text class="text-grey">交流反馈</text>
+      </view>
+    </view>
+    <view class="cu-item arrow"  bindtap='bindtapDataCollect'>
+      <view class="content">
+        <text class="cuIcon-circlefill text-green"></text>
+        <text class="text-grey">课程汇总</text>
       </view>
     </view>
   </view>

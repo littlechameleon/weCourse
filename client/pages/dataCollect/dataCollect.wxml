@@ -1,0 +1,95 @@
+<!--pages/dataCollect/dataCollect.wxml-->
+<view class='page'>
+  <cu-custom  bgColor="bg-gradual-blue" isCustom="{{true}}">
+    <view slot="backText"></view>
+    <view slot="content">数据汇总</view>
+  </cu-custom>
+
+  <view class="cu-bar margin-top bg-white">
+    <view class="action">
+      <text class="cuIcon-titles text-cyan"></text>课程数据
+    </view>
+    <view class="action">
+      <text class="text-df margin-right-sm"></text>
+    </view>
+  </view>
+
+      <view class='margin-tb'>
+        <view class="table radius shadow margin-lr">
+          <view class="tr bg-cyan">
+            <view class="th">类别</view>
+            <view class="th">测验</view>
+            <view class="th">签到</view>
+            <view class="th">提问</view>
+          </view>
+          <view class="tr bg-cyan light">
+            <view class="th bg-cyan">总次数</view>
+            <view class="td">{{courseData.testCount}}</view>
+            <view class="td">{{courseData.signInCount}}</view>
+            <view class="td">{{courseData.quizCount}}</view>
+          </view>
+        </view>
+      </view>
+
+
+  <view class="cu-bar margin-top bg-white">
+    <view class="action">
+      <text class="cuIcon-titles text-cyan"></text>{{isTeacher==0?'个人数据':'学生数据'}}
+    </view>
+    <view class="action">
+      <text class="text-df margin-right-sm"></text>
+    </view>
+  </view>
+
+  <view wx:if='{{isTeacher == 0}}'>
+
+      <view class='margin-tb'>
+        <view class="table radius shadow margin-lr">
+          <view class="tr bg-cyan">
+            <view class="th">类别</view>
+            <view class="th">测验</view>
+            <view class="th">签到</view>
+            <view class="th">提问</view>
+          </view>
+          <view class="tr bg-cyan light">
+            <view class="th bg-cyan">次数</view>
+            <view class="td">{{selfData.score.length}}</view>
+            <view class="td">{{selfData.checkIn.length}}</view>
+            <view class="td">{{selfData.quiz.length}}</view>
+          </view>
+        </view>
+      </view>
+
+      <view class='margin-tb'>
+        <view class="table radius shadow margin-lr">
+          <view class="tr bg-cyan">
+            <view class="th">测验总分</view>
+            <view wx:for='{{selfData.score}}' wx:key class="th">{{item.total}}</view>
+          </view>
+          <view class="tr bg-cyan light">
+            <view class="th bg-cyan">得分</view>
+            <view wx:for='{{selfData.score}}' wx:key class="td">{{item.score}}</view>
+          </view>
+        </view>
+      </view>
+
+      <view class='margin-tb'>
+        <view class="table radius shadow margin-lr">
+          <view class="tr bg-cyan">
+            <view class="th">提问时间</view>
+            <view wx:for='{{selfData.quiz}}' wx:key class="th">{{item.showTime}}</view>
+          </view>
+          <view class="tr bg-cyan light">
+            <view class="th bg-cyan">得分</view>
+            <view wx:for='{{selfData.quiz}}' wx:key class="td">{{item.score}}</view>
+          </view>
+        </view>
+      </view>
+
+  </view>
+
+  <view wx:if='{{isTeacher == 1}}'>
+  
+  </view>
+
+</view>

@@ -1,9 +1,4 @@
 /**index.wxss**/
-.userinfo{
-  margin-left: 30rpx;
-  margin-right: 30rpx;
-}
-
 .uploader, .tunnel {
     margin: 20rpx 30rpx;
     height: 140rpx;

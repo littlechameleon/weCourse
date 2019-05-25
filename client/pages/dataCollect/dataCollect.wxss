@@ -1,0 +1,24 @@
+/* pages/dataCollect/dataCollect.wxss */
+.table {
+  border: 0px solid darkgray;
+}
+.tr {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  height: 80rpx;
+  align-items: center;
+}
+.td {
+    width:50%;
+    justify-content: center;
+    text-align: center;
+}
+.th {
+  width: 50%;
+  justify-content: center;
+  color: #fff;
+  display: flex;
+  height: 80rpx;
+  align-items: center;
+}

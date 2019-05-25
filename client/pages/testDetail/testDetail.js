@@ -27,7 +27,7 @@ Page({
 
   changeDuration: function(e){
     this.setData({
-      duration: this.data.durations[e.detail.value]
+      duration: e.detail.value
     })
   },
 
@@ -55,11 +55,14 @@ Page({
           else {
             util.showSuccess('提交成功！')
           }
-          wx.redirectTo({
-            url: '../testResult/testResult?testId=' + this.data.testId + '&sequence=' + this.data.sequence + '&title=' + this.data.title + '&isTeacher=' + this.data.isTeacher,
-          })
+          let _this = this
+          setTimeout(function(){
+            wx.redirectTo({
+              url: '../testResult/testResult?testId=' + _this.data.testId + '&sequence=' + _this.data.sequence + '&title=' + _this.data.title + '&isTeacher=' + _this.data.isTeacher,
+            })
+          },2000)
         } else {
-          util.showModel('提交失败！', '提交失败，请确认是否全部回答完');
+          util.showModel('提交失败！', '请确认是否全部回答完');
           console.log('request fail');
         }
       },
@@ -101,6 +104,18 @@ Page({
     
   },
 
+  setDuration: function(data){
+    let duration = -1
+    this.data.durations.forEach(function(item, index){
+      if(item == data){
+        duration = index
+      }
+    })
+    this.setData({
+      duration: duration
+    })
+  },
+
 
   startTest: function(e){
     if (this.data.duration === -1) {
@@ -109,7 +124,7 @@ Page({
       wx.request({
         url: config.service.requestUrl + 'startTest',
         data: {
-          duration: this.data.duration,
+          duration: this.data.durations[this.data.duration],
           testId: this.data.testId,
         },
         success: res => {
@@ -204,8 +219,8 @@ Page({
                 this.setData({
                   testState: '测试进行中',
                   enablePicker: true,
-                  duration: this.data.test.duration
                 })
+                this.setDuration(this.data.test.duration)
                 let _this = this
                 let setInter = setInterval(function () {
                   let now = new Date()
@@ -251,8 +266,8 @@ Page({
                 this.setData({
                   testState: '测试已结束',
                   enablePicker: true,
-                  duration: this.data.test.duration
                 })
+                this.setDuration(this.data.test.duration)
               }
             }
             let question = this.data.question

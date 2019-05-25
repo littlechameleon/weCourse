@@ -44,7 +44,7 @@
 
     <view class='course-list radius'>
 
-      <view class="cu-bar bg-white radius shadow solid-bottom margin-top">
+      <view class="cu-bar bg-cyan radius shadow solid-bottom margin-top">
         <view class='action'>
           <text class='cuIcon-titles text-orange '></text> 
           <text>{{type==0?'学习':'教授'}}</text>
@@ -92,6 +92,15 @@
         </view>
       </view>
 
+      <view class="cu-bar margin-top bg-white">
+        <view class="action">
+          <text class="cuIcon-title text-orange"></text>课程操作
+        </view>
+        <view class="action">
+          <text class="text-df margin-right-sm"></text>
+        </view>
+      </view>
+
     <view class='operations shadow cu-list menu sm-border card-menu margin-top'>
       <view wx:if='{{type==1}}' class="cu-item arrow" bindtap='bindtapAddCourse'>
         <view class="content">
@@ -103,12 +112,6 @@
         <view class="content">
           <text class="cuIcon-circlefill text-mauve"></text>
           <text class="text-grey">交流反馈</text>
-        </view>
-      </view>
-      <view class="cu-item arrow"  bindtap='bindtapTimeLine'>
-        <view class="content">
-          <text class="cuIcon-circlefill text-green"></text>
-          <text class="text-grey">时间轴</text>
         </view>
       </view>
     </view>

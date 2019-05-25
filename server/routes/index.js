@@ -92,4 +92,6 @@ router.get('/getFeedback', controllers.getFeedback)
 
 router.get('/getAllFeedback', controllers.getAllFeedback)
 
+router.get('/dataCollect', controllers.dataCollect)
+
 module.exports = router

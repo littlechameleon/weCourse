@@ -6,6 +6,7 @@ module.exports = async ctx => {
   let answer = JSON.parse(ctx.request.body.answer)
 
   let query = await mysql('score').where({test_id: testId, open_id: openId})
+  let test = await mysql('test').where('test_id', testId)
   let repeat = 0
   if(query.length === 0){
     let total = 0
@@ -52,6 +53,7 @@ module.exports = async ctx => {
       test_id: testId,
       open_id: openId,
       score: total,
+      total: test[0].count * 10,
     }
     let result = await mysql('score').insert(score)
     query = await mysql('score').where({ test_id: testId, open_id: openId })
