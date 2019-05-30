@@ -35,7 +35,10 @@
       <text class='text-orange'>{{student?student.name + ' 学号：' + student.register_id:'从列表中选择学生或随机选择提问'}}</text>
     </view>
     <view class="action">
-      <button class="cu-btn bg-gradual-green shadow-blur round" bindtap='chooseRandomStudent'>随机选择</button>
+      <button class="cu-btn bg-gradual-green shadow-blur round" bindtap='chooseRandomStudent'>随机</button>
+    </view>
+    <view class='action' >
+      <text class="cuIcon-sort" bindtap='enterQuizHistory'></text>
     </view>
   </view>
   <scroll-view scroll-y class="indexes" scroll-into-view="indexes-{{listCurID}}" style="height:calc(100vh - {{CustomBar}}px - 50px)" scroll-with-animation="true" enable-back-to-top="true">

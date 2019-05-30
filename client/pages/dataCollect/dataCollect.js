@@ -29,6 +29,32 @@ Page({
     })
   },
 
+  sortScore: function(){
+    let studentData = this.data.studentData
+    for(let index=0;index<studentData.length;index++){
+      let totalTestScore = 0, totalQuizScore = 0
+      studentData[index].score.forEach(function (item) {
+        totalTestScore += item.score * 100 / item.total
+      })
+      if (studentData[index].score.length == 0){
+        studentData[index].testScore = 0
+      }else{
+        studentData[index].testScore = Math.round(totalTestScore / studentData[index].score.length)
+      }
+      studentData[index].quiz.forEach(function (item) {
+        totalQuizScore += item.score
+      })
+      if (studentData[index].quiz.length == 0) {
+        studentData[index].quizScore = 0
+      } else {
+        studentData[index].quizScore = (totalQuizScore / studentData[index].quiz.length).toFixed(1)
+      }
+    }
+    this.setData({
+      studentData: studentData
+    })
+  },
+
   getDataCollect: function(){
     wx.request({
       url: config.service.requestUrl + 'dataCollect',
@@ -46,6 +72,8 @@ Page({
           })
           if(this.data.isTeacher == 0){
             this.sortTime()
+          }else{
+            this.sortScore()
           }
         }
         else {

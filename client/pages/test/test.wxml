@@ -21,6 +21,7 @@
         <text class="text-grey">第{{index + 1}}套测验题</text>
       </view>
       <view class='action'>
+        <view class="cu-tag bg-grey light round" wx:if='{{item.state == 0}}'>未开启</view>
         <view class="cu-tag bg-red light round" wx:if='{{item.state == 1}}'>正在进行</view>
         <view class="cu-tag bg-green light round" wx:if='{{item.state == 2}}'>已结束</view>
         <view class="cu-tag bg-cyan light round">共 {{item.count}} 道题</view>

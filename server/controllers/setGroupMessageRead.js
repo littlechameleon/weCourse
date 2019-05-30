@@ -7,11 +7,12 @@ module.exports = async ctx => {
 
   let message = await mysql('message').where({ courseId: courseId, type: 0 }).orderBy('id', 'desc')
 
-
-  if (isTeacher == 0) {
-    await mysql('student').update({ groupState: message[0].id }).where({ course_id: courseId, open_id: openId })
-  } else {
-    await mysql('course').update({ groupState: message[0].id }).where({ course_id: courseId })
+  if(message.length != 0){
+    if (isTeacher == 0) {
+      await mysql('student').update({ groupState: message[0].id }).where({ course_id: courseId, open_id: openId })
+    } else {
+      await mysql('course').update({ groupState: message[0].id }).where({ course_id: courseId })
+    }
   }
 
   ctx.state.data = {

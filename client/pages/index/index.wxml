@@ -17,40 +17,15 @@
         </view>
     </view>
 
-
-    <!-- 上传图片测试 -->
-    <!-- <view class="uploader">
-        <view class="uploader-text" bindtap="doUpload">
-            <text>上传图片</text>
-        </view>
-        <view class="uploader-container" wx:if="{{imgUrl}}">
-            <image
-                class="uploader-image"
-                src="{{imgUrl}}"
-                mode="aspectFit"
-                bindtap="previewImg"
-            ></image>
-        </view>
-    </view> -->
-
-
-    <!-- 上传图片测试 -->
-    <!-- <view class="uploader">
-        <navigator url="../addCgi/addCgi" open-type="navigate" class="uploader-text">
-            <text>快速增加 CGI</text>
-        </navigator>
-    </view> -->
-
-
     <view class='course-list radius'>
 
       <view class="cu-bar bg-cyan radius shadow solid-bottom margin-top">
         <view class='action'>
           <text class='cuIcon-titles text-orange '></text> 
-          <text>{{type==0?'学习':'教授'}}</text>
+          <text>身份： {{type==0?'学生':'教师'}}</text>
         </view>
         <view class='action'>
-          <switch class='sm' checked='{{isCard}}' bindchange='switchChange'></switch>
+          <switch class='sm' disabled='{{!logged}}' checked='{{isCard}}' bindchange='switchChange'></switch>
         </view>
       </view>
     </view>
@@ -101,7 +76,7 @@
         </view>
       </view>
 
-    <view class='operations shadow cu-list menu sm-border card-menu margin-top'>
+    <view class='operations shadow cu-list menu sm-border card-menu margin-tb'>
       <view wx:if='{{type==1}}' class="cu-item arrow" bindtap='bindtapAddCourse'>
         <view class="content">
           <text class="cuIcon-circlefill text-orange"></text>
@@ -115,6 +90,28 @@
         </view>
       </view>
     </view>
+
+    <!-- 上传图片测试 -->
+    <!-- <view class="uploader">
+        <navigator url="../addCgi/addCgi" open-type="navigate" class="uploader-text">
+            <text>快速增加 CGI</text>
+        </navigator>
+    </view> -->
+
+    <!-- 上传图片测试 -->
+    <!-- <view class="uploader">
+        <view class="uploader-text" bindtap="doUpload">
+            <text>上传图片</text>
+        </view>
+        <view class="uploader-container" wx:if="{{imgUrl}}">
+            <image
+                class="uploader-image"
+                src="{{imgUrl}}"
+                mode="aspectFit"
+                bindtap="previewImg"
+            ></image>
+        </view>
+    </view> -->
 
 
 </view>

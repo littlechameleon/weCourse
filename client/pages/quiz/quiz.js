@@ -38,6 +38,12 @@ Page({
     })
   },
 
+  enterQuizHistory: function(){
+    wx.navigateTo({
+      url: '../quizHistory/quizHistory?courseId=' + this.data.courseId + '&isTeacher=' + this.data.isTeacher,
+    })
+  },
+
   getStudentList: function(){
     wx.request({
       url: config.service.requestUrl + 'getStudentList',

@@ -23,7 +23,7 @@
             <view class="th">提问</view>
           </view>
           <view class="tr bg-cyan light">
-            <view class="th bg-cyan">总次数</view>
+            <view class="th bg-cyan">次数</view>
             <view class="td">{{courseData.testCount}}</view>
             <view class="td">{{courseData.signInCount}}</view>
             <view class="td">{{courseData.quizCount}}</view>
@@ -60,10 +60,20 @@
         </view>
       </view>
 
+      
+  <view class="cu-bar margin-top bg-white" wx:if='{{selfData.score.length>0}}'>
+    <view class="action">
+      <text class="cuIcon-titles text-cyan"></text>测验成绩
+    </view>
+    <view class="action">
+      <text class="text-df margin-right-sm"></text>
+    </view>
+  </view>
+
       <view class='margin-tb'>
         <view class="table radius shadow margin-lr">
           <view class="tr bg-cyan">
-            <view class="th">测验总分</view>
+            <view class="th">总分</view>
             <view wx:for='{{selfData.score}}' wx:key class="th">{{item.total}}</view>
           </view>
           <view class="tr bg-cyan light">
@@ -73,10 +83,20 @@
         </view>
       </view>
 
+
+  <view class="cu-bar margin-top bg-white" wx:if='{{selfData.quiz.length>0}}'>
+    <view class="action">
+      <text class="cuIcon-titles text-cyan"></text>提问成绩
+    </view>
+    <view class="action">
+      <text class="text-df margin-right-sm"></text>
+    </view>
+  </view>
+
       <view class='margin-tb'>
         <view class="table radius shadow margin-lr">
           <view class="tr bg-cyan">
-            <view class="th">提问时间</view>
+            <view class="th">时间</view>
             <view wx:for='{{selfData.quiz}}' wx:key class="th">{{item.showTime}}</view>
           </view>
           <view class="tr bg-cyan light">
@@ -90,6 +110,25 @@
 
   <view wx:if='{{isTeacher == 1}}'>
   
+      <view class='margin-tb'>
+        <view class="table radius shadow margin-lr">
+          <view class="tr bg-cyan">
+            <view class="th">姓名</view>
+            <view class="th">学号</view>
+            <view class="th">测验</view>
+            <view class="th">签到</view>
+            <view class="th">提问</view>
+          </view>
+          <view wx:for='{{studentData}}' wx:key class="tr bg-cyan light">
+            <view class="td">{{item.student.name}}</view>
+            <view class="td">{{item.student.register_id}}</view>
+            <view class="td">{{item.testScore}}</view>
+            <view class="td">{{item.checkIn.length}}</view>
+            <view class="td">{{item.quizScore}}({{item.quiz.length}}次)</view>
+          </view>
+        </view>
+      </view>
+
   </view>
 
 </view>

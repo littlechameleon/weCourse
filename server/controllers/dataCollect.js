@@ -22,14 +22,17 @@ module.exports = async ctx => {
     selfData.quiz = selfQuiz
   }else{
     let student = await mysql('student').where({'course_id': courseId})
-    student.forEach(function(item, index){
+    for(let index=0;index<student.length;index++){
       let data = {}
-      data.student = item
-
-
-
+      data.student = student[index]
+      let checkIn = await mysql('checkIn').join('chapter', 'chapter.chapter_id', 'checkIn.chapter_id').where({ 'chapter.course_id': courseId, 'checkIn.open_id': student[index].open_id})
+      data.checkIn = checkIn
+      let selfQuiz = await mysql('quiz').where({ 'courseId': courseId, 'openId': student[index].open_id})
+      data.quiz = selfQuiz
+      let score = await mysql('test').join('chapter', 'chapter.chapter_id', 'test.chapter_id').join('score', 'score.test_id', 'test.test_id').where({ 'chapter.course_id': courseId, 'score.open_id': student[index].open_id })
+      data.score = score
       studentData.push(data)
-    })
+    }
   }
 
 

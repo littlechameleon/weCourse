@@ -156,7 +156,11 @@ Page({
         }
       })
       groupUnreadCount.push(count)
-      groupTime.push(time.timeChange(groupMessage[index][0].time))
+      if (groupMessage[index].length == 0){
+        groupTime.push('')
+      }else{
+        groupTime.push(time.timeChange(groupMessage[index][0].time))
+      }
     }
 
     for (let index = 0; index < privateMessage.length; index++) {
@@ -175,7 +179,11 @@ Page({
           }
         })
         counts[idx] = count
-        timeObj[idx] = time.timeChange(privateMessage[index][idx][0].time)
+        if (privateMessage[index][idx].length == 0){
+          timeObj[idx] = ''
+        }else{
+          timeObj[idx] = time.timeChange(privateMessage[index][idx][0].time)
+        }
       }
       privateUnreadCount.push(counts)
       privateTime.push(timeObj)

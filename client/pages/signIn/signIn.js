@@ -139,6 +139,18 @@ Page({
     }
   },
 
+  setDuration: function (data) {
+    let duration = -1
+    this.data.durations.forEach(function (item, index) {
+      if (item == data) {
+        duration = index
+      }
+    })
+    this.setData({
+      duration: duration
+    })
+  },
+
   startSignIn: function (e) {
     if (this.data.duration === -1) {
       util.showModel('操作失败', '请先选择定时');
@@ -267,8 +279,8 @@ Page({
             this.setData({
               signIn: signIn,
               enablePicker: true,
-              duration: signIn.duration
             })
+            this.setDuration(signIn.duration)
             if(signIn.state == 1){
               let _this = this
               let setInter = setInterval(function () {

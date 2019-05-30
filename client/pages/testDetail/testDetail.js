@@ -169,7 +169,7 @@ Page({
                       console.log('request fail', error);
                     }
                   })
-                }, 30000)
+                }, 10000)
                 clearInterval(setInter)
               }
             }, 1000)
@@ -258,7 +258,7 @@ Page({
                           console.log('request fail', error);
                         }
                       })
-                    }, 30000)
+                    }, 10000)
                     clearInterval(setInter)
                   }
                 }, 1000)

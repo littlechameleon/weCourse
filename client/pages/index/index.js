@@ -27,9 +27,14 @@ Page({
     },
 
     bindtapAllFeedback: function(){
-      wx.navigateTo({
-        url: '../feedback/feedback?isTeacher=' + this.data.type,
-      })
+      if(this.data.logged){
+        wx.navigateTo({
+          url: '../feedback/feedback?isTeacher=' + this.data.type,
+        })
+      }else{
+        util.showModel('操作失败','请先登录！')
+      }
+
     },
 
     switchChange: function(e){
@@ -46,9 +51,13 @@ Page({
     },
 
     bindtapAddCourse:function(){
-      wx.navigateTo({
-        url: '../addCourse/addCourse',
-      })
+      if(this.data.logged){
+        wx.navigateTo({
+          url: '../addCourse/addCourse',
+        })
+      }else{
+        util.showModel('操作失败', '请先登录！')
+      }
     },
 
     onPullDownRefresh: function () {
@@ -104,41 +113,26 @@ Page({
         wx.showToast({
           title: '正在登陆',
           icon: 'loading',
+          duration: 10000,
         })
 
-        const session = qcloud.Session.get()
-
-        if (session) {
-            // 第二次登录
-            // 或者本地已经有登录态
-            // 可使用本函数更新登录态
-            qcloud.login({
-                success: res => {
-                    this.setData({ userInfo: res, logged: true })
-                    app.globalData = this.data
-                    util.showSuccess('登录成功')
-                    this.getAllCourse()
-                },
-                fail: err => {
-                    console.error(err)
-                    util.showModel('登录错误', err.message)
-                }
-            })
-        } else {
-            // 首次登录
-            qcloud.login({
-                success: res => {
-                    this.setData({ userInfo: res, logged: true })
-                    app.globalData = this.data
-                    util.showSuccess('登录成功')
-                    this.getAllCourse()
-                },
-                fail: err => {
-                    console.error(err)
-                    util.showModel('登录错误', err.message)
-                }
-            })
-        }
+        qcloud.login({
+            success: res => {
+              console.log(res)
+                this.setData({ userInfo: res, logged: true })
+                app.globalData = this.data
+                wx.hideToast()
+                util.showSuccess('登录成功')
+                this.getAllCourse()
+                // return
+            },
+            fail: err => {
+                console.error(err)
+                util.showModel('登录错误', err.message)
+                return
+            }
+        })
+        
     },
 
     // 切换是否带有登录态
