@@ -89,29 +89,30 @@ Page({
   addQuiz: function () {
     if(this.data.student.open_id == null){
       util.showModel('fail','该同学还未注册')
+    }else{
+      wx.request({
+        url: config.service.requestUrl + 'addQuiz',
+        data: {
+          courseId: this.data.courseId,
+          openId: this.data.student.open_id,
+          score: this.data.score,
+        },
+        success: res => {
+          if (res.data.code == 0) {
+            util.showSuccess('操作成功')
+            this.hideModal()
+          }
+          else {
+            util.showModel('fail', '评分上传失败')
+            console.log('request fail')
+          }
+        },
+        fail: error => {
+          util.showModel('评分上传失败', error)
+          console.log('request fail', error)
+        }
+      })
     }
-    wx.request({
-      url: config.service.requestUrl + 'addQuiz',
-      data: {
-        courseId: this.data.courseId,
-        openId: this.data.student.open_id,
-        score: this.data.score,
-      },
-      success: res => {
-        if (res.data.code == 0) {
-          util.showSuccess('操作成功')
-          this.hideModal()
-        }
-        else {
-          util.showModel('fail', '评分上传失败')
-          console.log('request fail')
-        }
-      },
-      fail: error => {
-        util.showModel('评分上传失败', error)
-        console.log('request fail', error)
-      }
-    })
   },
 
   //获取文字信息

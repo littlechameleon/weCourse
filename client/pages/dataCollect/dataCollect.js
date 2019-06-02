@@ -39,7 +39,7 @@ Page({
       if (studentData[index].score.length == 0){
         studentData[index].testScore = 0
       }else{
-        studentData[index].testScore = Math.round(totalTestScore / studentData[index].score.length)
+        studentData[index].testScore = Math.round(totalTestScore / this.data.courseData.testCount)
       }
       studentData[index].quiz.forEach(function (item) {
         totalQuizScore += item.score

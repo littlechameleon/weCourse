@@ -6,9 +6,9 @@ module.exports = async ctx => {
   let isTeacher = ctx.request.query.isTeacher
 
   let courseData = {}, selfData = {}, studentData = []
-  let test = await mysql('test').join('chapter', 'chapter.chapter_id','test.chapter_id').where('chapter.course_id', courseId)
+  let test = await mysql('test').join('chapter', 'chapter.chapter_id','test.chapter_id').where({'chapter.course_id': courseId, 'test.state': 2})
   courseData.testCount = test.length
-  let signIn = await mysql('signIn').join('chapter', 'chapter.chapter_id', 'signIn.chapter_id').where('chapter.course_id', courseId)
+  let signIn = await mysql('signIn').join('chapter', 'chapter.chapter_id', 'signIn.chapter_id').where({'chapter.course_id': courseId})
   courseData.signInCount = signIn.length
   let quiz = await mysql('quiz').where('courseId', courseId)
   courseData.quizCount = quiz.length
