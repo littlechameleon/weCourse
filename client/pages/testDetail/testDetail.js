@@ -53,14 +53,17 @@ Page({
             util.showModel('提交失败', '您已经提交过作答，请勿重复提交！')
           }
           else {
+            this.setData({
+              answerState: '已提交'
+            })
             util.showSuccess('提交成功！')
           }
-          let _this = this
-          setTimeout(function(){
-            wx.redirectTo({
-              url: '../testResult/testResult?testId=' + _this.data.testId + '&sequence=' + _this.data.sequence + '&title=' + _this.data.title + '&isTeacher=' + _this.data.isTeacher,
-            })
-          },2000)
+          // let _this = this
+          // setTimeout(function(){
+          //   wx.redirectTo({
+          //     url: '../testResult/testResult?testId=' + _this.data.testId + '&sequence=' + _this.data.sequence + '&title=' + _this.data.title + '&isTeacher=' + _this.data.isTeacher,
+          //   })
+          // },2000)
         } else {
           util.showModel('提交失败！', '请确认是否全部回答完');
           console.log('request fail');
@@ -76,22 +79,18 @@ Page({
   formSubmit: function (e) {
     if(this.data.answerState == '开始答题'){
       let _this = this
-      let setInter = setInterval(function () {
+      _this.formSetInter = setInterval(function () {
         if (new Date() > new Date(_this.data.test.end_time)) {
-          console.log(e.detail.value)
-          console.log(e.detail)
-          console.log(e)
-          _this.submitAnswer(e.detail.value)
-          clearInterval(setInter)
+          if(_this.data.answerState == '提交'){
+            _this.submitAnswer(e.detail.value)
+          }
+          clearInterval(_this.formSetInter)
         }
       }, 1000)
-      this.setData({
-        answerState: '提 交'
+      _this.setData({
+        answerState: '提交'
       })
     }else{
-      console.log(e.detail.value)
-      console.log(e.detail)
-      console.log(e)
       let value = e.detail.value
       for (let obj in value) {
         if (value[obj].length == 0) {
@@ -116,6 +115,30 @@ Page({
     })
   },
 
+  collectAnswer: function(){
+    wx.request({
+      url: config.service.requestUrl + 'collectAnswer',
+      data: {
+        testId: this.data.testId,
+      },
+      success: res => {
+        if (res.data.code == 0) {
+          wx.redirectTo({
+            url: '../testResult/testResult?testId=' + this.data.testId + '&sequence=' + this.data.sequence + '&title=' + this.data.title + '&isTeacher=' + this.data.isTeacher,
+          })
+        }
+        else {
+          util.showModel('fail', '测验结果收集失败');
+          console.log('request fail');
+        }
+      },
+      fail: error => {
+        util.showModel('fail', error);
+        console.log('request fail', error);
+      }
+    })
+  },
+
 
   startTest: function(e){
     if (this.data.duration === -1) {
@@ -133,7 +156,7 @@ Page({
               test: res.data.data.test
             })
             let _this = this
-            let setInter = setInterval(function(){
+            _this.stateSetInter = setInterval(function(){
               let now = new Date()
               if(now < new Date(_this.data.test.end_time)){
                 _this.setData({
@@ -146,31 +169,8 @@ Page({
                   enablePicker: true
                 })
                 util.showBusy('收集测验结果中')
-                let __this = _this
-                setTimeout(function () {
-                  wx.request({
-                    url: config.service.requestUrl + 'collectAnswer',
-                    data: {
-                      testId: __this.data.testId,
-                    },
-                    success: res => {
-                      if (res.data.code == 0) {
-                        wx.redirectTo({
-                          url: '../testResult/testResult?testId=' + __this.data.testId + '&sequence=' + __this.data.sequence + '&title=' + __this.data.title + '&isTeacher=' + __this.data.isTeacher,
-                        })
-                      }
-                      else {
-                        util.showModel('fail', '测验结果收集失败');
-                        console.log('request fail');
-                      }
-                    },
-                    fail: error => {
-                      util.showModel('fail', error);
-                      console.log('request fail', error);
-                    }
-                  })
-                }, 10000)
-                clearInterval(setInter)
+                setTimeout(_this.collectAnswer, 20000)
+                clearInterval(_this.stateSetInter)
               }
             }, 1000)
             console.log('success')
@@ -187,6 +187,33 @@ Page({
       })
     }
   },
+
+  getScore: function(){
+    wx.request({
+      url: config.service.requestUrl + 'getScore',
+      data: {
+        openId: this.data.userInfo.openId,
+        testId: this.data.testId,
+      },
+      success: res => {
+        if (res.data.code == 0) {
+          if(res.data.data.score){
+            this.setData({
+              answerState: '已提交'
+            })
+          }
+        }
+        else {
+          util.showModel('fail', '个人测验信息获取失败');
+          console.log('request fail');
+        }
+      },
+      fail: error => {
+        util.showModel('个人测验信息获取失败', error);
+        console.log('request fail', error);
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -198,6 +225,9 @@ Page({
       sequence: parseInt(options.sequence),
       title: options.title,
     })
+    if(this.data.isTeacher == 0){
+      this.getScore()
+    }
       wx.request({
         url: config.service.requestUrl + 'getTest',
         data: {
@@ -222,7 +252,7 @@ Page({
                 })
                 this.setDuration(this.data.test.duration)
                 let _this = this
-                let setInter = setInterval(function () {
+                _this.stateSetInter = setInterval(function () {
                   let now = new Date()
                   if (now < new Date(_this.data.test.end_time)) {
                     _this.setData({
@@ -235,31 +265,8 @@ Page({
                       enablePicker: true
                     })
                     util.showBusy('收集测验结果中')
-                    let __this = _this
-                    setTimeout(function () {
-                      wx.request({
-                        url: config.service.requestUrl + 'collectAnswer',
-                        data: {
-                          testId: __this.data.testId,
-                        },
-                        success: res => {
-                          if (res.data.code == 0) {
-                            wx.redirectTo({
-                              url: '../testResult/testResult?testId=' + __this.data.testId + '&sequence=' + __this.data.sequence + '&title=' + __this.data.title + '&isTeacher=' + __this.data.isTeacher,
-                            })
-                          }
-                          else {
-                            util.showModel('fail', '测验结果收集失败');
-                            console.log('request fail');
-                          }
-                        },
-                        fail: error => {
-                          util.showModel('fail', error);
-                          console.log('request fail', error);
-                        }
-                      })
-                    }, 10000)
-                    clearInterval(setInter)
+                    setTimeout(_this.collectAnswer, 20000)
+                    clearInterval(_this.stateSetInter)
                   }
                 }, 1000)
               }else{
@@ -268,6 +275,8 @@ Page({
                   enablePicker: true,
                 })
                 this.setDuration(this.data.test.duration)
+                util.showBusy('收集测验结果中')
+                setTimeout(this.collectAnswer, 20000)
               }
             }
             let question = this.data.question
@@ -328,14 +337,16 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-
+    clearInterval(this.formSetInter)
+    clearInterval(this.stateSetInter)
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    clearInterval(this.stateSetInter)
+    clearInterval(this.formSetInter)
   },
 
   /**

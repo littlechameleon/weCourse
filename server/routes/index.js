@@ -94,4 +94,6 @@ router.get('/getAllFeedback', controllers.getAllFeedback)
 
 router.get('/dataCollect', controllers.dataCollect)
 
+router.get('/getScore', controllers.getScore)
+
 module.exports = router

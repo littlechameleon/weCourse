@@ -10,8 +10,8 @@ module.exports = async ctx => {
     scores = await mysql('score').join('student', 'student.open_id', '=', 'score.open_id').where({'score.test_id': testId, 'student.course_id': course[0].course_id}).orderBy('score.score','asc')
   }
   else{
-    scores = await mysql('score').join('student', 'student.open_id', '=', 'score.open_id').where({'score.test_id': testId, 'student.open_id': openId}).orderBy('score.score','asc')
-    answer = await mysql('answer').where('open_id', openId).orderBy('question_id','asc')
+    scores = await mysql('score').where({'test_id': testId, 'open_id': openId})
+    answer = await mysql('answer').where({'open_id': openId, 'test_id': testId}).orderBy('question_id','asc')
   }
   ctx.state.data = {
     scores: scores,

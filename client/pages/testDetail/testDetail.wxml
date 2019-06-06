@@ -73,21 +73,21 @@
         </view>
         <radio-group name='{{quest.id}}' wx:if='{{quest.type === 0}}'>
           <label wx:for='{{radioList[index]}}' class='radio-part' wx:key='index' wx:for-index='idx'>
-            <radio value='{{idx}}' disabled='{{answerState == "开始答题"}}'/>
+            <radio value='{{idx}}' disabled='{{answerState != "提交"}}'/>
             <text class='radio-choose'>{{item}}</text>
           </label>
         </radio-group>
         
         <checkbox-group name='{{quest.id}}' wx:if='{{quest.type === 1}}'>
           <label wx:for='{{radioList[index]}}' class='radio-part' wx:key='index' wx:for-index='idx'>
-            <checkbox value='{{idx}}' disabled='{{answerState == "开始答题"}}'/>
+            <checkbox value='{{idx}}' disabled='{{answerState != "提交"}}'/>
             <text class='radio-choose'>{{item}}</text>
           </label>
         </checkbox-group>
       </view>
 
       <view class='margin-tb-sm text-center'>
-        <button disabled='{{testState == "测试已结束"}}' class='cu-btn bg-cyan light shadow round' form-type='submit'>{{answerState}}</button>
+        <button disabled='{{answerState == "已提交"}}' class='cu-btn bg-cyan light shadow round' form-type='submit'>{{answerState}}</button>
       </view>
     </form>
 
