@@ -96,4 +96,8 @@ router.get('/dataCollect', controllers.dataCollect)
 
 router.get('/getScore', controllers.getScore)
 
+router.get('/getChapter', controllers.getChapter)
+
+router.get('/getStudent', controllers.getStudent)
+
 module.exports = router

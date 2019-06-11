@@ -53,7 +53,7 @@ Page({
     bindtapAddCourse:function(){
       if(this.data.logged){
         wx.navigateTo({
-          url: '../addCourse/addCourse',
+          url: '../addCourse/addCourse?step=0',
         })
       }else{
         util.showModel('操作失败', '请先登录！')
@@ -70,14 +70,64 @@ Page({
     },
 
     enterCourse: function(e){
-      wx.navigateTo({
-        url: '../courseHomepage/courseHomepage?courseId=' + e.currentTarget.dataset.id,
+      this.getChapter(e.currentTarget.dataset.id)
+    },
+
+    getStudent: function (courseId) {
+      wx.request({
+        url: config.service.requestUrl + 'getStudent',
+        data: {
+          courseId: courseId,
+        },
+        success: res => {
+          if (res.data.code == 0) {
+            if (res.data.data.studentList.length > 0) {
+              wx.navigateTo({
+                url: '../courseHomepage/courseHomepage?courseId=' + courseId,
+              })
+            } else {
+              wx.navigateTo({
+                url: '../addCourse/addCourse?step=2&courseId=' + courseId,
+              })
+            }
+          }
+          else {
+            util.showModel('fail', '学生获取失败');
+            console.log('request fail');
+          }
+        },
+        fail: error => {
+          util.showModel('学生获取失败', error);
+          console.log('request fail', error);
+        }
       })
     },
 
-    createCourse: function(){
-      wx.navigateTo({
-        url: '../addCourse/addCourse',
+    getChapter: function (courseId) {
+      wx.request({
+        url: config.service.requestUrl + 'getChapter',
+        data: {
+          courseId: courseId,
+        },
+        success: res => {
+          if (res.data.code == 0) {
+            if(res.data.data.chapterList.length > 0){
+              this.getStudent(courseId)
+            }else{
+              wx.navigateTo({
+                url: '../addCourse/addCourse?step=1&courseId=' + courseId,
+              })
+            }
+          }
+          else {
+            util.showModel('fail', '章节获取失败');
+            console.log('request fail');
+          }
+        },
+        fail: error => {
+          util.showModel('章节获取失败', error);
+          console.log('request fail', error);
+        }
       })
     },
 

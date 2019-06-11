@@ -150,8 +150,14 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      userInfo: app.globalData.userInfo
+      userInfo: app.globalData.userInfo,
+      step: parseInt(options.step),
     })
+    if(this.data.step != 0){
+      this.setData({
+        courseId: options.courseId
+      })
+    }
   },
 
   /**
